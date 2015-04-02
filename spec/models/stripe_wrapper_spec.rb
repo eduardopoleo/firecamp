@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe StripeWrapper::Charge do
+describe StripeWrapper do
   let (:token) do
     Stripe::Token.create(
       :card => {
@@ -12,30 +12,32 @@ describe StripeWrapper::Charge do
     ).id
   end
 
-  context 'with valid input', :vcr do
-    let(:card_number) {4242424242424242}
-    it 'creates a charge' do
-      stripe_response = StripeWrapper::Charge.create(
-        amount: 777,
-        card: token)
-      expect(stripe_response).to be_successful
-    end
-  end
-
-  context 'with invalid input', :vcr do
-    let(:card_number) {4000000000000002}
-    it 'creates a charge' do
-      stripe_response = StripeWrapper::Charge.create(
-        amount: 777,
-        card: token)
-      expect(stripe_response).not_to be_successful
+  describe StripeWrapper::Charge do
+    context 'with valid input', :vcr do
+      let(:card_number) {4242424242424242}
+      it 'creates a charge' do
+        stripe_response = StripeWrapper::Charge.create(
+          amount: 777,
+          card: token)
+        expect(stripe_response).to be_successful
+      end
     end
 
-    it 'sets the delclined card error', :vcr do
-      stripe_response = StripeWrapper::Charge.create(
-        amount: 777,
-        card: token)
-      expect(stripe_response.error_message).to eq('Your card was declined.')
+    context 'with invalid input', :vcr do
+      let(:card_number) {4000000000000002}
+      it 'creates a charge' do
+        stripe_response = StripeWrapper::Charge.create(
+          amount: 777,
+          card: token)
+        expect(stripe_response).not_to be_successful
+      end
+
+      it 'sets the delclined card error', :vcr do
+        stripe_response = StripeWrapper::Charge.create(
+          amount: 777,
+          card: token)
+        expect(stripe_response.error_message).to eq('Your card was declined.')
+      end
     end
   end
 
