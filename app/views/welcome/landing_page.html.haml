@@ -19,6 +19,16 @@
             %a{:href => "#services"} Services
           %li
             %a{:href => "#contact"} Contact
+          %li.dropdown
+            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+              Log In
+              %strong.caret
+            .dropdown-menu{:style => "padding: 15px; padding-bottom: 0px;"}
+              = bootstrap_form_tag url: login_path do |f|
+                = f.text_field :email, hide_label: true, placeholder: 'Email'
+                = f.password_field :password, hide_label: true, placeholder: 'Password'
+                = link_to "Forgot Password?", new_password_path 
+                = f.submit "Log In"
       / /.navbar-collapse
     / /.container
   / Header
