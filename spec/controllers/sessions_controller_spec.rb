@@ -1,13 +1,6 @@
 require 'spec_helper'
 
 describe SessionsController do
-  describe "Get new" do
-    it 'renders the login template' do
-      get :new 
-      expect(response).to render_template :new
-    end
-  end
-
   describe 'Post create' do
     context 'with valid input' do
       let(:joe) {Fabricate(:user)}
