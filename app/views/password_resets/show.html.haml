@@ -1,0 +1,10 @@
+%section.reset_password
+  =form_tag password_resets_path do
+    %header
+      %h1 Reset Your Password
+    %fieldset
+      = hidden_field_tag :token, @token 
+      = label_tag :password, "New Password"
+      = text_field_tag :password, nil
+    %fieldset.form-group.action
+      %input(type="submit" value="Reset Password")

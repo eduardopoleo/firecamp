@@ -10,7 +10,13 @@ Rails.application.routes.draw do
 
   get 'ui(/:action)', controller: 'ui'
 
-  get '/login', to: 'sessions#new', as: 'login'
-  post '/login', to: 'sessions#create'
+  post '/login', to: 'sessions#create', as: 'login'
   get '/logout', to: 'sessions#destroy', as: 'logout'
+
+  get '/forgot_passwords', to: "forgot_passwords#new", as: 'new_password'
+  get '/forgot_passwords_confirmation', to: "forgot_passwords#confirmation", as: 'forgot_passwords_confirmation'
+  resources :forgot_passwords, only: [:create]
+
+  resources :password_resets, only: [:show, :create]
+  get '/expired_token', to: 'password_resets#expired_token'
 end

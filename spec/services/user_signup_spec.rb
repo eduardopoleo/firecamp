@@ -19,6 +19,10 @@ describe UserSignup do
         expect(User.count).to eq(1)
       end
 
+      it 'created user has token' do
+        expect(User.first.token).to be_present
+      end
+
       it 'sets admin to equal true' do
         expect(User.first.admin).to eq(true)
       end

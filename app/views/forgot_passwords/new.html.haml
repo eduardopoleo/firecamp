@@ -1,0 +1,8 @@
+%section.forgot_password
+  = form_tag forgot_passwords_path do
+    %header
+      %h1 Forgot Password?
+      %p We will send you an email with a link...
+      = label_tag :email, "Email Adress"
+      = text_field_tag :email,nil
+      %input(type="submit" value="Send Email")
