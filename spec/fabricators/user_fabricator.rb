@@ -4,3 +4,7 @@ Fabricator(:user) do
   password {Faker::Internet.password}
   token {SecureRandom.urlsafe_base64}
 end
+
+Fabricator(:admin, from: :user) do
+  admin true
+end
