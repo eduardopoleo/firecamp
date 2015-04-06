@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id 
       flash[:success] = 'You have successfully logged in!'
-      redirect_to dashboard_user_path(user)
+      redirect_to groups_path
     else
       flash[:error] = 'There is a problem with your email or password'
       redirect_to login_path

@@ -1,1 +1,33 @@
-s
+.row
+  .col-xs-3
+    =render "shared/sidebar"
+  .col-xs-9
+    %h1.feature-title.text-center Groups
+    %button.btn-success#group-create-button
+      + Group
+    .row
+      -binding.pry
+      .col-xs-4
+        = bootstrap_form_for(@group) do |f|
+          = f.text_field :name
+          = f.text_field :description
+          = f.submit "Create"
+        %br
+        - @groups.each_slice(4) do |groups|
+          .row
+            - groups.each do |group|
+              .col-xs-3.feature
+                .panel.panel-default
+                  .panel-heading
+                    .panel-title #{group.name}
+                    .small #{group.created_at}
+                  .panel-body
+                    = image_tag("dog.png", class: "img-responsive")
+                    %p group.description
+                    %ul.group-info
+                      %li Members (56)
+                      %li Pending Lists (1)
+                      %li Messages (3)  
+                  .panel-footer
+                    %a.btn.btn-warning.btn-block{:href => "#"} -> Visit Group  %a.btn.btn-warning.btn-block{:href => "www.epoleo.com"} Learn how to disagree 
+          

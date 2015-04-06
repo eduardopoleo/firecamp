@@ -1,5 +1,7 @@
 class GroupsController < ApplicationController
+  before_action :require_user
   def index
+    @group = Group.new
     @groups = current_user.groups
   end
 
@@ -7,7 +9,7 @@ class GroupsController < ApplicationController
     group = current_user.groups.build(group_params) 
     if group.save
       flash[:success] = 'You have successfully created a group'
-      redirect_to group_path(group)
+      redirect_to posts_path
     else
       render :index
     end

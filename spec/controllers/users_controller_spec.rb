@@ -26,7 +26,7 @@ describe UsersController do
       end
 
       it 'redirects to the dashboard path page' do
-        expect(response).to redirect_to dashboard_user_path(User.first)
+        expect(response).to redirect_to groups_path
       end
 
       it 'sets a success flash message' do
