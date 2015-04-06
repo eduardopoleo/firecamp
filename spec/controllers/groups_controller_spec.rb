@@ -39,53 +39,75 @@ describe GroupsController do
   end
 
   describe 'Post create' do
-    it 'redirects to the post show page' do
-      rich = Fabricate(:admin)
-      session[:user_id] = rich.id
-      post :create, group:{name: 'Coffeeco Downtown', description: "MS group administration"}
-      expect(response).to redirect_to posts_path 
-    end
-
-    it 'creates a group' do
+    it 'sets the group instace variable' do
       rich = Fabricate(:admin)
       session[:user_id] = rich.id 
       post :create, group:{name: 'Coffeeco Downtown', description: "MS group administration"}
-      expect(Group.count).to eq(1)
+      expect(assigns(:group)).to eq(Group.first)
+    end
+    
+    context 'with valid input' do
+      it 'sets a flash message when the group is created' do
+        rich = Fabricate(:admin)
+        session[:user_id] = rich.id
+        post :create, group: Fabricate.attributes_for(:group)
+        expect(flash[:success]).to be_present
+      end
+
+      it 'redirects to the post show page' do
+        rich = Fabricate(:admin)
+        session[:user_id] = rich.id
+        post :create, group:{name: 'Coffeeco Downtown', description: "MS group administration"}
+        expect(response).to redirect_to group_posts_path(Group.first) 
+      end
+
+      it 'creates a group' do
+        rich = Fabricate(:admin)
+        session[:user_id] = rich.id 
+        post :create, group:{name: 'Coffeeco Downtown', description: "MS group administration"}
+        expect(Group.count).to eq(1)
+      end
+
+      it 'creates a group associated with the admin' do
+        rich = Fabricate(:admin)
+        session[:user_id] = rich.id
+        post :create, group:{name: 'Coffeeco Downtown', description: "MS group administration"}
+        expect(Group.first.admin).to eq(rich)
+      end
     end
 
-    it 'creates a group associated with the admin' do
-      rich = Fabricate(:admin)
-      session[:user_id] = rich.id
-      post :create, group:{name: 'Coffeeco Downtown', description: "MS group administration"}
-      expect(Group.first.admin).to eq(rich)
-    end
+    context 'invalid input' do
+      it 'does not create the group without description' do
+        rich = Fabricate(:admin)
+        session[:user_id] = rich.id
+        post :create, group:{name: 'Coffeeco Downtown', description: ""}
+        expect(Group.count).to eq(0)
+      end
 
-    it 'does not create the group without description' do
-      rich = Fabricate(:admin)
-      session[:user_id] = rich.id
-      post :create, group:{name: 'Coffeeco Downtown', description: ""}
-      expect(Group.count).to eq(0)
-    end
+      it 'does not create the group without name' do
+        rich = Fabricate(:admin)
+        session[:user_id] = rich.id
+        post :create, group:{name: '', description: "MS group administration"}
+        expect(Group.count).to eq(0)
+      end
 
-    it 'does not create the group without name' do
-      rich = Fabricate(:admin)
-      session[:user_id] = rich.id
-      post :create, group:{name: '', description: "MS group administration"}
-      expect(Group.count).to eq(0)
-    end
+      it 'renders the group index page if the group can not be created' do
+        rich = Fabricate(:admin)
+        session[:user_id] = rich.id
+        post :create, group:{name: 'Coffeeco Downtown', description: ""}
+        expect(response).to render_template :index
+      end
 
-    it 'renders the group index page if the group can not be created' do
-      rich = Fabricate(:admin)
-      session[:user_id] = rich.id
-      post :create, group:{name: 'Coffeeco Downtown', description: ""}
-      expect(response).to render_template :index
-    end
-
-    it 'sets a flash message when the group is created' do
-      rich = Fabricate(:admin)
-      session[:user_id] = rich.id
-      post :create, group: Fabricate.attributes_for(:group)
-      expect(flash[:success]).to be_present
+      it 'sets the groups instance variable' do
+        rich = Fabricate(:user)
+        session[:user_id] = rich.id
+        group1 = Fabricate(:group, admin: rich)
+        group2 = Fabricate(:group, admin: rich)
+        4.times{Fabricate(:group)}
+      
+        post :create, group:{name: 'Coffeeco Downtown', description: ""}
+        expect(assigns(:groups)).to eq([group2, group1])
+      end
     end
   end
 end

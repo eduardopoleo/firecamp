@@ -18,8 +18,8 @@
         %li
           %a{:href => "#"} Schedules   
         %li.dropdown
-          %a.dropdown-toggle{"aria-expanded" => "false", "data-toggle" => "dropdown", :href => "#", :role => "button"}
-            %span.glyphicon.glyphicon-user 
+          %a.dropdown-toggle#logout-button{"aria-expanded" => "false", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+            %span.glyphicon.glyphicon-user
             %span.caret
           %ul.dropdown-menu{:role => "menu"}
             %li
@@ -29,4 +29,5 @@
             %li
             %li.divider
             %li
-              %a{:href => "#"} Log out
+              = link_to "Log Out", logout_path 
+

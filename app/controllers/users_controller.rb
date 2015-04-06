@@ -1,6 +1,4 @@
 class UsersController < ApplicationController
-  before_action :require_user, only: :dashboard
-  
   def new
     @user = User.new
   end

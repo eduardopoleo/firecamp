@@ -25,7 +25,7 @@ describe UsersController do
           stripeToken: '345'
       end
 
-      it 'redirects to the dashboard path page' do
+      it 'redirects to the groups path page' do
         expect(response).to redirect_to groups_path
       end
 
@@ -57,21 +57,6 @@ describe UsersController do
        
       it 'renders the @users variables with validatation errors' do
         expect(assigns(:user)).to be_present
-      end
-    end
-
-    describe 'Get Dashboard' do
-      it 'renders the corresponding user dash board if loggedin?' do
-        joe = Fabricate(:user)
-        session[:user_id] = joe.id
-        #Had problems here 
-        get :dashboard, id: joe.id
-        expect(response).to render_template :dashboard
-      end
-
-      it 'redirects to the front page if not loggedin?' do
-        get :dashboard, id: 5
-        expect(response).to redirect_to root_path
       end
     end
   end

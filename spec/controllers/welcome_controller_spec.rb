@@ -7,11 +7,11 @@ describe WelcomeController do
       expect(response).to render_template :landing_page
     end
 
-    it 'redirects to the user dashboard if there is logged in' do
+    it 'redirects to the user group index if there is logged in' do
       joe = Fabricate(:user)
       session[:user_id] = joe.id
       get :landing_page
-      expect(response).to redirect_to dashboard_user_path(joe)
+      expect(response).to redirect_to groups_path
     end
   end
 end
