@@ -18,15 +18,6 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
-.post{
-  border: solid 1px black;
-}
-
-.post-like{
-  float: right;
-  position: relative;
-  top: -10px;
-}
 
 .small-panels{
   list-style: none;
@@ -79,6 +70,10 @@
   height: auto;
 }
 
-.like-button{
+.date-in-posts{
+  padding-left: 1.4%;
 }
+
+
+
    

@@ -20,6 +20,11 @@ describe PostsController do
         expect(assigns(:group)).to eq(group)
       end
 
+      it 'sets the new @post variable' do
+        get :index, group_id: group.id
+        expect(assigns(:post)).to be_a_new(Post)
+      end
+
       it 'sets the posts variable' do
         post1 = Fabricate(:post, group: group, title: 'Firt post')
         post2 = Fabricate(:post, group: group)

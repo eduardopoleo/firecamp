@@ -17,5 +17,6 @@ Rails.application.routes.draw do
 
   resources :groups, only: [:index, :create] do
     resources :posts, only: [:index, :create]
+    resources :guides, only: [:index, :show, :create]
   end
 end

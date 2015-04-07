@@ -7,4 +7,8 @@ module ApplicationHelper
       :notice => 'alert-info'
     }[flash_type.to_sym] || flash_type.to_
   end
+
+  def datetime_for_view(object)
+    object.created_at.strftime("%b %d, %Y")
+  end
 end

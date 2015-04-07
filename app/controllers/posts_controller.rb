@@ -2,7 +2,8 @@ class PostsController < ApplicationController
   before_action :require_user
   def index
     @group = Group.find(params[:group_id])
-    @posts = @group.posts
+    @posts = @group.posts.to_a.delete_if(&:new_record?)
+    @post = @group.posts.build
   end
 
   def create

@@ -22,11 +22,11 @@
                 .small #{group.created_at}
               .panel-body
                 = image_tag("dog.png", class: "img-responsive")
-                %p group.description
+                = group.description
                 %ul.group-info
                   %li Members (56)
                   %li Pending Lists (1)
                   %li Messages (3)  
               .panel-footer
-                %a.btn.btn-warning.btn-block{:href => "#"} -> Visit Group  %a.btn.btn-warning.btn-block{:href => "www.epoleo.com"} Learn how to disagree 
+                = link_to '-> Visit Group', group_posts_path(group), class: 'btn btn-warning btn-block'
           
