@@ -7,7 +7,8 @@ feature "User sign up", :vcr do
     fill_in_payment_info('4242424242424242')
     click_button('Sign Up')
     expect(page).to have_content('Welcome to Firecamp!') 
-    click_link('log out')
+    click_link('logout-button')
+    click_link('Log Out')
   end
 
   scenario "with invalid user info", :js => true do

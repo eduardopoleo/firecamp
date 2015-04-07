@@ -1,0 +1,29 @@
+.container
+  %h1.feature-title.text-center Forum
+  %button.btn-success#group-create-button
+    + Message
+  = form_for([@group, @post]) do |f|
+    .form-group
+      = f.label :title
+      = f.text_field :title, class: 'form-control'
+    .form-group
+      = f.label :content
+      = f.text_area :content, class: 'form-control'
+    = f.submit 'Post!', class: "btn btn-success btn-block"
+
+  - @posts.each do |post|
+    .media
+      .media-left
+        %a{:href => "#"}
+          = image_tag("dog.png", class: "media-object resize")
+        %small #{post.user.full_name.split(" ")[0]}
+      .media-body
+        %h4.media-heading #{post.title}
+        .row
+          .col-xs-11
+            #{post.content}
+          .col-xs-1
+            %span.glyphicon.glyphicon-heart{"aria-hidden" => "true"}
+        .row        
+          %small.date-in-posts #{datetime_in_views(post)}
+

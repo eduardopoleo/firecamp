@@ -19,6 +19,6 @@ feature "User sign up" do
     fill_in 'password', with: 'new_password' 
     click_button 'Log In'
     expect(page).to have_content('You have successfully logged in!')
-    click_link('log out')
+    click_link('Log Out')
   end
 end

@@ -1,0 +1,5 @@
+.container
+  %h1.text-center #{@guide.title}
+  %p.text-center #{@guide.description}
+  %p.text-center by #{@guide.admin.full_name} at #{datetime_for_view(@guide)}
+  = simple_format(@guide.content)

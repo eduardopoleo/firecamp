@@ -7,7 +7,7 @@ describe SessionsController do
       before {post :create, email: joe.email, password: joe.password}
 
       it 'redirects to the home path' do
-        expect(response).to redirect_to dashboard_user_path(joe)
+        expect(response).to redirect_to groups_path
       end
 
       it 'sets the session id to the user id' do
