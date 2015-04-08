@@ -10,7 +10,7 @@
         = bootstrap_form_for(@group) do |f|
           = f.text_field :name
           = f.text_field :description
-          = f.submit "Create"
+          = f.submit "Create Group"
         %br
     - @groups.each_slice(4) do |groups|
       .row

@@ -9,7 +9,7 @@ class GroupsController < ApplicationController
     @group = current_user.groups.build(group_params) 
     if @group.save
       flash[:success] = 'You have successfully created a group'
-      redirect_to group_posts_path(@group)
+      redirect_to groups_path
     else
       @groups = current_user.groups.to_a.delete_if(&:new_record?)
       render :index

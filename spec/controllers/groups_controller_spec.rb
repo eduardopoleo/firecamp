@@ -58,7 +58,7 @@ describe GroupsController do
         rich = Fabricate(:admin)
         session[:user_id] = rich.id
         post :create, group:{name: 'Coffeeco Downtown', description: "MS group administration"}
-        expect(response).to redirect_to group_posts_path(Group.first) 
+        expect(response).to redirect_to groups_path 
       end
 
       it 'creates a group' do

@@ -1,0 +1,6 @@
+= bootstrap_form_for @user, :url => create_invited_user_path do |f|
+  = f.email_field :email
+  = f.text_field :full_name
+  = f.password_field :password
+  = hidden_field_tag 'token', @invitation.token 
+  = f.submit "Sign Up!"
