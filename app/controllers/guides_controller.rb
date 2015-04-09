@@ -1,19 +1,13 @@
 class GuidesController < ApplicationController
   before_action :require_user
 
-  def index
-    @group = Group.find(params[:group_id])
-    @guides = @group.guides.to_a 
-    @guide = @group.guides.build
-  end
-
   def create
-    @group = Group.find(params[:group_id])
-    @guide = @group.guides.build(guide_params.merge!(admin: current_user))
+    @guide = Guide.new(guide_params.merge!(admin: current_user))
     if @guide.save
-      redirect_to group_guide_path(@group, @guide)
+      flash[:success] = 'You post has been created'
+      redirect_to :back
     else
-      render :index
+      render 'groups/group_guides'
     end
   end
 
@@ -24,6 +18,6 @@ class GuidesController < ApplicationController
   private
 
   def guide_params
-    params.require(:guide).permit(:title, :description, :content, :category)
+    params.require(:guide).permit!
   end
 end

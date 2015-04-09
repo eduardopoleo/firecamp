@@ -11,10 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150408225117) do
+ActiveRecord::Schema.define(version: 20150409181042) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "group_guides", force: true do |t|
+    t.integer  "group_id"
+    t.integer  "guide_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "group_posts", force: true do |t|
+    t.integer  "group_id"
+    t.integer  "post_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "groups", force: true do |t|
     t.string   "name"
@@ -28,7 +42,6 @@ ActiveRecord::Schema.define(version: 20150408225117) do
     t.text     "description"
     t.string   "category"
     t.integer  "user_id"
-    t.integer  "group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "content"
@@ -51,7 +64,6 @@ ActiveRecord::Schema.define(version: 20150408225117) do
   create_table "posts", force: true do |t|
     t.string   "title"
     t.text     "content"
-    t.integer  "group_id"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"

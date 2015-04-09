@@ -3,6 +3,6 @@ Fabricator(:guide) do
   description {Faker::Lorem.paragraph}
   content {Faker::Lorem.paragraph(5)}
   category{Faker::Lorem.word}
+  groups{[Fabricate(:group)]}
   admin
-  group
 end

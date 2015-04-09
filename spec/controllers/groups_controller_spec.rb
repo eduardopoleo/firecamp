@@ -38,6 +38,8 @@ describe GroupsController do
     end
   end
 
+   
+
   describe 'Post create' do
     it 'sets the group instace variable' do
       rich = Fabricate(:admin)
@@ -109,6 +111,67 @@ describe GroupsController do
         post :create, group:{name: 'Coffeeco Downtown', description: ""}
         expect(assigns(:groups)).to eq([group1, group2])
       end
+    end
+  end
+  
+  describe 'Get group_guides' do
+    let(:user) {Fabricate(:user)}
+    let(:group) {Fabricate(:group)}
+    before do
+      session[:user_id] = user.id
+    end
+
+    it 'renders the group posts template' do
+      get :group_guides, group_id: group.id
+      expect(response).to render_template :group_guides
+    end
+
+    it 'sets the group instance variable' do
+      get :group_guides, group_id: group.id
+      expect(assigns(:group)).to eq(group)
+    end
+
+    it 'sets a new post instance variable' do
+      get :group_guides, group_id: group.id
+      expect(assigns(:guide)).to be_a_new(Guide)
+    end
+
+    it 'sets the posts instance variable' do
+      post1 = Fabricate(:guide, groups: [group])
+      post2 = Fabricate(:guide, groups: [group])
+      get :group_guides, group_id: group.id
+      expect(assigns(:guides)).to eq([post2, post1])
+    end
+  end
+  
+
+  describe 'Get group_posts' do
+    let(:user) {Fabricate(:user)}
+    let(:group) {Fabricate(:group)}
+    before do
+      session[:user_id] = user.id
+    end
+
+    it 'renders the group posts template' do
+      get :group_posts, group_id: group.id
+      expect(response).to render_template :group_posts
+    end
+
+    it 'sets the group instance variable' do
+      get :group_posts, group_id: group.id
+      expect(assigns(:group)).to eq(group)
+    end
+
+    it 'sets a new post instance variable' do
+      get :group_posts, group_id: group.id
+      expect(assigns(:post)).to be_a_new(Post)
+    end
+
+    it 'sets the posts instance variable' do
+      post1 = Fabricate(:post, groups: [group])
+      post2 = Fabricate(:post, groups: [group])
+      get :group_posts, group_id: group.id
+      expect(assigns(:posts)).to eq([post2, post1])
     end
   end
 end

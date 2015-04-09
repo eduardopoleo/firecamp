@@ -17,10 +17,12 @@ Rails.application.routes.draw do
   resources :password_resets, only: [:show, :create]
   get '/expired_token', to: 'password_resets#expired_token'
 
-  resources :groups, only: [:index, :create] do
-    resources :posts, only: [:index, :create]
-    resources :guides, only: [:index, :show, :create]
-  end
+  resources :groups, only: [:index, :create]
+  resources :posts, only: [:create]
+  get 'group_posts/:group_id', to: 'groups#group_posts', as: 'group_posts'
+  get 'group_guides/:group_id', to: 'groups#group_guides', as: 'group_guides'
+
+  resources :guides, only: [:show, :create]
 
   resources :invitations, only: [:new, :create]
   get '/expired_invitation', to: 'invitations#expired_invitation', as: 'expired_invitation'

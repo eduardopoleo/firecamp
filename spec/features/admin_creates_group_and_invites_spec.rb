@@ -2,20 +2,8 @@ require 'spec_helper'
 
 feature "User sign up" do
   scenario "with valid user and payment info" do
-    john = Fabricate(:admin, email: 'rich@gmail.com', password: 'password')
-    visit root_path
-    fill_in('email', with: 'rich@gmail.com' )
-    fill_in('password', with: 'password')
-    click_button('Log In')
-
-    fill_in('Name', with: 'Coffeeco MS')
-    fill_in('Description', with: 'This is a coffee shop located in Kingston Downtown')
-    click_button('Create Group')
-
-    #Create group stays in the same page
-    fill_in('Name', with: 'Coffeeco KC')
-    fill_in('Description', with: 'This is a coffee shop located in Kingston Downtown')
-    click_button('Create Group')
+    admin_login
+    admin_creates_groups
 
     click_link('Create Invitation')
     fill_in('Email', with: 'john@gmail.com')

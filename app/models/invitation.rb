@@ -1,6 +1,6 @@
 class Invitation < ActiveRecord::Base
-  has_many :invitation_group
-  has_many :groups, through: :invitation_group
+  has_many :invitation_groups
+  has_many :groups, through: :invitation_groups
   validates_presence_of :groups
 
   validates :email, presence: true

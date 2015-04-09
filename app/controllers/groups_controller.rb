@@ -1,9 +1,10 @@
 class GroupsController < ApplicationController
-  before_action :require_user
+  before_action :require_user 
   def index
     @group = Group.new
     @groups = current_user.groups.to_a
   end
+
 
   def create
     @group = Group.new(group_params) 
@@ -15,6 +16,18 @@ class GroupsController < ApplicationController
       @groups = current_user.groups.to_a.delete_if(&:new_record?)
       render :index
     end
+  end
+
+  def group_posts
+    @group = Group.find(params[:group_id])
+    @posts = @group.posts.order("created_at DESC")
+    @post = Post.new
+  end
+
+  def group_guides
+    @group = Group.find(params[:group_id])
+    @guides = @group.guides.order("created_at DESC")
+    @guide = Guide.new
   end
 
   private

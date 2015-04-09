@@ -1,0 +1,25 @@
+.container
+  .row
+    .col-xs-12
+      %h1.feature-title.text-center Guides
+      %button.btn-success#group-create-button
+        + Guide
+      = bootstrap_form_for(@guide) do |f|
+        = f.text_field :title
+        = f.text_field :description
+        = f.text_field :category
+        = f.text_area :content, rows: 6
+        = f.form_group :groups do
+          = f.collection_check_boxes :group_ids, current_user.groups.all, :id, :name
+        = f.submit "Create Guide!"
+        %br
+      - @guides.each_slice(4) do |guides|
+        .row
+          - guides.each do |guide|
+            .col-xs-3
+              = link_to guide_path(guide), class: 'text-center thumbnail' do
+                %p #{guide.title}
+                %hr.top-guide-divisor
+                %p #{guide.description}
+                %hr.bottom-guide-divisor
+                %p #{guide.category}
