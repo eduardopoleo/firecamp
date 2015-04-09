@@ -4,7 +4,6 @@ feature "User sign up" do
   scenario "with valid user and payment info" do
     john = Fabricate(:admin, email: 'rich@gmail.com', password: 'password')
     visit root_path
-    click_link('Log In')
     fill_in('email', with: 'rich@gmail.com' )
     fill_in('password', with: 'password')
     click_button('Log In')
@@ -33,5 +32,11 @@ feature "User sign up" do
     expect(page).to have_content('MS')
     expect(page).not_to have_content('KC')
     click_link('Log Out')
+
+    fill_in('email', with: 'rich@gmail.com' )
+    fill_in('password', with: 'password')
+    click_button('Log In')
+    expect(page).to have_content('MS')
+    expect(page).to have_content('KC')
   end
 end

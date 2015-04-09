@@ -19,8 +19,8 @@ describe GroupsController do
     it 'Sets the groups variables to the groups the current user' do
       rich = Fabricate(:user)
       session[:user_id] = rich.id
-      group1 = Fabricate(:group, admin: rich)
-      group2 = Fabricate(:group, admin: rich)
+      group1 = Fabricate(:group, users: [rich])
+      group2 = Fabricate(:group, users: [rich])
       4.times{Fabricate(:group)}
       
       get :index
@@ -72,7 +72,8 @@ describe GroupsController do
         rich = Fabricate(:admin)
         session[:user_id] = rich.id
         post :create, group:{name: 'Coffeeco Downtown', description: "MS group administration"}
-        expect(Group.first.admin).to eq(rich)
+        expect(Group.first.users.first).to eq(rich)
+        expect(Group.first.users.first.admin).to be_truthy
       end
     end
 
@@ -101,12 +102,12 @@ describe GroupsController do
       it 'sets the groups instance variable' do
         rich = Fabricate(:user)
         session[:user_id] = rich.id
-        group1 = Fabricate(:group, admin: rich)
-        group2 = Fabricate(:group, admin: rich)
+        group1 = Fabricate(:group, users: [rich])
+        group2 = Fabricate(:group, users: [rich])
         4.times{Fabricate(:group)}
       
         post :create, group:{name: 'Coffeeco Downtown', description: ""}
-        expect(assigns(:groups)).to eq([group2, group1])
+        expect(assigns(:groups)).to eq([group1, group2])
       end
     end
   end

@@ -2,10 +2,10 @@ require 'spec_helper'
 
 describe PostsController do
   describe 'Get index' do
-    let(:group) {Fabricate(:group)}
+    let(:rich) {Fabricate(:user)}
+    let(:group) {Fabricate(:group, users: [rich])}
 
     context 'with logged in user' do
-      let(:rich) {Fabricate(:user)}
       before do
         session[:user_id] = rich.id
       end
@@ -31,6 +31,12 @@ describe PostsController do
         get :index, group_id: group.id
         expect(assigns(:posts)).to eq([post2, post1])
       end 
+
+      it 'redirects to the group index if not a group member' do
+        another_group = Fabricate(:group)
+        get :index, group_id: another_group.id
+        expect(response).to redirect_to groups_path
+      end
     end
 
     context 'with no logged in user' do
