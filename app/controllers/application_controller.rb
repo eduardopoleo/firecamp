@@ -13,6 +13,13 @@ class ApplicationController < ActionController::Base
     !!current_user
   end
 
+  def require_group_membership
+    group = Group.find(params[:group_id])
+    if !group.users.include?(current_user)
+      redirect_to groups_path
+    end
+  end
+
   def require_user
     if !loggedin?
       flash[:error] = "You need to log in to access that"

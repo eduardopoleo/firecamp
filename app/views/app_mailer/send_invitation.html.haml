@@ -1,0 +1,10 @@
+Hi,
+
+%p #{@sender.full_name} is inviting you to join his group(s)
+%ul
+  - @invitation.groups.each do |group|
+    %li #{group.name}
+%p at Firecamp
+
+= link_to 'Join Us!', invited_user_url(@invitation.token)
+

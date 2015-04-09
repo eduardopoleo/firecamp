@@ -3,9 +3,9 @@
     %span.glyphicon.glyphicon-camera
     + Group
     %span.caret
-  %a.list-group-item{:href => "#"}
+  = link_to new_invitation_path, class: 'list-group-item' do
     %span.glyphicon.glyphicon-camera
-    + Invite
+    Create Invitation
     %span.caret 
   %a.list-group-item.active{:href => "#"}
     %span.glyphicon.glyphicon-camera
