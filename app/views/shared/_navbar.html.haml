@@ -12,22 +12,21 @@
     #bs-example-navbar-collapse-1.collapse.navbar-collapse
       %ul.nav.navbar-nav.navbar-right
         %li
-          %a{:href => "#"} Discussion
-        %li
           %a{:href => "#"} Liked Messages   
         %li
           %a{:href => "#"} Schedules   
-        %li.dropdown
-          %a.dropdown-toggle#logout-button{"aria-expanded" => "false", "data-toggle" => "dropdown", :href => "#", :role => "button"}
-            %span.glyphicon.glyphicon-user
-            %span.caret
-          %ul.dropdown-menu{:role => "menu"}
-            %li
-              %a{:href => "#"} Settings
-            %li
-              %a{:href => "#"} Profile 
-            %li
-            %li.divider
-            %li
-              = link_to "Log Out", logout_path 
+        - if current_user
+          %li.dropdown
+            %a.dropdown-toggle#logout-button{"aria-expanded" => "false", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+              %span.glyphicon.glyphicon-user
+              %span.caret
+            %ul.dropdown-menu{:role => "menu"}
+              %li
+                %a{:href => "#"} Settings
+              %li
+                = link_to 'Profile', user_path(current_user) 
+              %li
+              %li.divider
+              %li
+                = link_to "Log Out", logout_path 
 

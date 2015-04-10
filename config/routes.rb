@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   
   root 'welcome#landing_page'
 
-  resources :users, only: [:new, :create]
+  resources :users, except: [:destroy]
   get '/invited_user/:token', to: 'users#invited_user', as: 'invited_user'
   post '/create_invited_user', to: 'users#create_invited_user', as: 'create_invited_user'
 

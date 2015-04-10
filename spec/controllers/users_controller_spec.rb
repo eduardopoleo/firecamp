@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe UsersController do
-  describe 'Get NEW' do
+  describe 'Get New' do
     it 'renders the new registration form' do
       get :new
       expect(response).to render_template :new
@@ -10,6 +10,22 @@ describe UsersController do
     it 'sets the new users variables' do
       get :new
       expect(assigns(:user)).to be_a_new User
+    end
+  end
+
+  describe 'Get Show' do 
+    it 'renders the show template' do
+      rich = Fabricate(:user)
+      session[:user_id] = rich
+      get :show, id: rich.id
+      expect(response).to render_template :show
+    end
+
+    it 'sets the user instance variable' do
+      rich = Fabricate(:user)
+      session[:user_id] = rich
+      get :show, id: rich.id
+      expect(assigns(:user)).to eq(rich)
     end
   end
 
@@ -61,7 +77,74 @@ describe UsersController do
     end
   end
 
-  describe 'Get invited user' do
+
+  describe 'Get edit' do
+    it 'render the edit user page' do
+      rich = Fabricate(:user)
+      session[:user_id] = rich.id
+      get :edit, id: rich.id  
+      expect(response).to render_template :edit
+    end
+
+    it 'sets the user variable with the current user information' do
+      rich = Fabricate(:user)
+      session[:user_id] = rich.id
+      get :edit, id: rich.id  
+      expect(assigns(:user)).to eq(rich)
+    end
+
+    it 'redirects to the root path if user is not signed up' do
+      rich = Fabricate(:user)
+      get :edit, id: rich.id  
+      expect(response).to redirect_to root_path
+    end
+  end
+
+  describe 'Post update' do
+    it 'redirects to the user show page if successful' do
+      rich = Fabricate(:user, email: 'some@gmail.com')
+      session[:user_id] = rich.id
+      post :update, id: rich.id, user: Fabricate.attributes_for(:user, email: 'another@gmail.com')
+      expect(response).to redirect_to user_path(rich) 
+    end
+    
+    it 'updates the user info' do
+      rich = Fabricate(:user, email: 'some@gmail.com')
+      session[:user_id] = rich.id
+      post :update, id: rich.id, user: Fabricate.attributes_for(:user, email: 'another@gmail.com')
+      expect(rich.reload.email).to eq('another@gmail.com')
+    end
+
+    it 'sets as flash message' do
+      rich = Fabricate(:user, email: 'some@gmail.com')
+      session[:user_id] = rich.id
+      post :update, id: rich.id, user: Fabricate.attributes_for(:user, email: 'another@gmail.com')
+      expect(flash[:success]).to be_present
+    end
+
+    it 'does not update the user if validation are not passed' do
+      rich = Fabricate(:user, email: 'some@gmail.com')
+      session[:user_id] = rich.id
+      post :update, id: rich.id, user: Fabricate.attributes_for(:user, email: '')
+      expect(rich.reload.email).to eq('some@gmail.com')
+    end
+
+    it 'renders the edit template if the update does not pass validation' do
+      rich = Fabricate(:user, email: 'some@gmail.com')
+      session[:user_id] = rich.id
+      post :update, id: rich.id, user: Fabricate.attributes_for(:user, email: '')
+      expect(response).to render_template :edit
+    end
+
+    it 'sets the user instance variable' do
+      rich = Fabricate(:user, email: 'some@gmail.com')
+      session[:user_id] = rich.id
+      post :update, id: rich.id, user: Fabricate.attributes_for(:user, email: '')
+      expect(assigns(:user)).to eq(rich) 
+    end
+  end
+
+  describe 'Get invited_user' do
     context 'with valid token' do
       let(:invitation) {Fabricate(:invitation)}
       before{get :invited_user, token: invitation.token}

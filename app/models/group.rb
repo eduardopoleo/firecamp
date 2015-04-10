@@ -12,4 +12,6 @@ class Group < ActiveRecord::Base
 
   has_many :group_guides
   has_many :guides, through: :group_guides
+
+  mount_uploader :group_cover, GroupCoverUploader
 end

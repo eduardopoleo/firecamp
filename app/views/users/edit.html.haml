@@ -1,0 +1,6 @@
+= bootstrap_form_for(@user) do |f|
+  = f.email_field :email
+  = f.text_field :full_name
+  = f.password_field :password
+  = f.file_field :avatar, class: 'btn btn-file'
+  = f.submit "Update Profile"

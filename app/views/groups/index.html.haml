@@ -10,6 +10,7 @@
         = bootstrap_form_for(@group) do |f|
           = f.text_field :name
           = f.text_field :description
+          = f.file_field :group_cover, class: 'btn btn-file'
           = f.submit "Create Group"
         %br
     - @groups.each_slice(4) do |groups|
@@ -21,7 +22,7 @@
                 .panel-title #{group.name}
                 .small #{group.created_at}
               .panel-body
-                = image_tag("dog.png", class: "img-responsive")
+                = image_tag("#{group.group_cover.to_s}", class: "img-responsive")
                 = group.description
                 %ul.group-info
                   %li Members (56)
