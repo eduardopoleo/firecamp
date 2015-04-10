@@ -3,7 +3,7 @@ require 'spec_helper'
 describe PostsController do
   describe "Post Create" do
     context 'with logged in user' do
-      let (:rich) {Fabricate(:user)}
+      let (:rich) {Fabricate(:admin)}
       before do
         request.env["HTTP_REFERER"] = "http://fake.host"
         session[:user_id] = rich.id
@@ -66,6 +66,14 @@ describe PostsController do
           post :create, post: {title: 'This is some title', content: 'dslkfskj flaksjdf', group_ids: [""]}
           expect(Post.count).to eq(0)
         end
+      end
+
+      it 'does not create post if not admin' do
+        juan = Fabricate(:user)
+        session[:user_id] = juan.id
+        group1 = Fabricate(:group)
+        post :create, post: {title: 'This is some title', content: 'dslkfskj flaksjdf', group_ids: ["1"]}
+        expect(Post.count).to eq(0)
       end
     end
 

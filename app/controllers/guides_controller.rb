@@ -1,5 +1,6 @@
 class GuidesController < ApplicationController
   before_action :require_user
+  before_action :require_admin, only: [:create]
 
   def create
     @guide = Guide.new(guide_params.merge!(admin: current_user))

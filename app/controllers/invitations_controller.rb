@@ -1,5 +1,6 @@
 class InvitationsController < ApplicationController
   before_action :require_user, only: [:new, :create]
+  before_action :require_admin, only: [:new, :create]
 
   def new
     @invitation = Invitation.new
