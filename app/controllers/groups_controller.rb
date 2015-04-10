@@ -1,10 +1,12 @@
 class GroupsController < ApplicationController
   before_action :require_user 
+  before_action :require_admin, only: [:create]
+  before_action :require_membership, only:[:group_posts, :group_guides]
+
   def index
     @group = Group.new
     @groups = current_user.groups.to_a
   end
-
 
   def create
     @group = Group.new(group_params) 

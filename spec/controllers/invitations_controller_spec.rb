@@ -2,8 +2,9 @@ require 'spec_helper'
 
 describe InvitationsController do
   context 'with logged in user' do
-    let(:rich) {Fabricate(:user)}
+    let(:rich) {Fabricate(:admin)}
     before{session[:user_id] = rich.id}
+
     describe "Get new" do
       it 'sets a new invitation instance variable' do 
         get :new
@@ -13,6 +14,13 @@ describe InvitationsController do
       it 'renders the new template' do
         get :new
         expect(response).to render_template :new
+      end
+
+      it 'redirects to the groups path if not admin' do
+        juan = Fabricate(:user)
+        session[:user_id] = juan.id
+        get :new
+        expect(response).to redirect_to root_path
       end
     end
 
@@ -52,6 +60,15 @@ describe InvitationsController do
           post :create, invitation: {email: 'rich@gmail.com', group_ids: ["1", "2", ""]}
           expect(ActionMailer::Base.deliveries.last.to).to eq([Invitation.first.email])
           ActionMailer::Base.deliveries.clear
+        end
+
+        it 'does not create invitation without admin' do 
+          juan = Fabricate(:user)
+          session[:user_id] = juan.id
+          group1 = Fabricate(:group)
+          group2 = Fabricate(:group)
+          post :create, invitation: {email: 'rich@gmail.com', group_ids: ["1", "2", ""]}
+          expect(Invitation.count).to eq(0)
         end
       end
 

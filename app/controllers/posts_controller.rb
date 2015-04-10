@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_action :require_user
+  before_action :require_admin
 
   def create
     @post = Post.new(post_params.merge!(user: current_user))

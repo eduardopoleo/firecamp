@@ -47,6 +47,13 @@ describe GuidesController do
           post :create, guide: {title: 'This is some title', content: 'This is some content', group_ids: ["1", "2", ""]} 
           expect(Guide.first.groups).to match_array([group1, group2])
         end
+        
+        it 'does not create guide if not admin' do
+          juan = Fabricate(:user)
+          session[:user_id] = juan.id
+          post :create, guide: {title: 'This is some title', content: 'dslkfskj flaksjdf', group_ids: ["#{group.id}"]}
+          expect(Guide.count).to eq(0)
+        end
       end
 
       context 'with invalid input' do
