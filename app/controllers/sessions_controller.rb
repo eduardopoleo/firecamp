@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
       redirect_to groups_path
     else
       flash[:error] = 'There is a problem with your email or password'
-      redirect_to login_path
+      redirect_to root_path
     end
   end
 

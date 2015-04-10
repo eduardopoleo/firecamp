@@ -16,7 +16,7 @@
     .media
       .media-left
         %a{:href => "#"}
-          = image_tag("dog.png", class: "media-object resize")
+          = image_tag("#{post.user.avatar}", class: "media-object resize")
         %small #{post.user.full_name.split(" ")[0]}
       .media-body
         %h4.media-heading #{post.title}
