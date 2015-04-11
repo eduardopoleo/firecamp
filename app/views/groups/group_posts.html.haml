@@ -1,29 +1,42 @@
-.container
-  =link_to 'Guides', group_guides_path 
-  %br
+.row
+  .col-xs-3
+    = render "shared/sidebar"
+  .col-xs-8
+    .row.header-row
+      .col-xs-2.bordered-image-container
+        = image_tag("#{@group.group_cover.to_s}", class: "group-image")
+        %p.text-center #{@group.name}
+      .col-xs-9.extra-class
+        %ul.inner-navegation
+          %li
+            = link_to 'Messages', group_posts_path 
+          %li
+            = link_to 'Guides', group_guides_path
+          %li
+            = link_to 'Schedules', "#" 
+    .row
+      .col-xs-12.add-messages
+        %button.btn-success.add-resource#group-create-button
+          + Message
+        = bootstrap_form_for(@post) do |f|
+          = f.text_field :title
+          = f.text_area :content
+          = f.form_group :groups do
+            = f.collection_check_boxes :group_ids, current_user.groups.all, :id, :name
+          = f.submit "Post!"
 
-  %h1.feature-title.text-center Forum
-  %button.btn-success#group-create-button
-    + Message
-  = bootstrap_form_for(@post) do |f|
-    = f.text_field :title
-    = f.text_area :content
-    = f.form_group :groups do
-      = f.collection_check_boxes :group_ids, current_user.groups.all, :id, :name
-    = f.submit "Post!"
-
-  - @posts.each do |post|
-    .media
-      .media-left
-        %a{:href => "#"}
-          = image_tag("#{post.user.avatar}", class: "media-object resize")
-        %small #{post.user.full_name.split(" ")[0]}
-      .media-body
-        %h4.media-heading #{post.title}
-        .row
-          .col-xs-11
-            #{post.content}
-          .col-xs-1
-            %span.glyphicon.glyphicon-heart{"aria-hidden" => "true"}
-        .row        
-          %small.date-in-posts #{datetime_for_view(post)}
+        - @posts.each do |post|
+          .media
+            .media-left
+              %a{:href => "#"}
+                = image_tag("#{post.user.avatar}", class: "media-object resize")
+              %small #{post.user.full_name.split(" ")[0]}
+            .media-body
+              %h4.media-heading #{post.title}
+              .row
+                .col-xs-11
+                  #{post.content}
+                .col-xs-1
+                  %span.glyphicon.glyphicon-heart{"aria-hidden" => "true"}
+              .row        
+                %small.date-in-posts #{datetime_for_view(post)}

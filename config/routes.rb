@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   get 'group_posts/:group_id', to: 'groups#group_posts', as: 'group_posts'
   get 'group_guides/:group_id', to: 'groups#group_guides', as: 'group_guides'
 
-  resources :guides, only: [:show, :create]
+  resources :guides, only: [:show, :create, :new]
 
   resources :invitations, only: [:new, :create]
   get '/expired_invitation', to: 'invitations#expired_invitation', as: 'expired_invitation'

@@ -6,6 +6,8 @@ class GroupsController < ApplicationController
   def index
     @group = Group.new
     @groups = current_user.groups.to_a
+    @invitation = Invitation.new
+    @post = Post.new
   end
 
   def create

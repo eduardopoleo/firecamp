@@ -54,6 +54,7 @@
   background-color: black;
 }
 
+
 //Guides styling
 
 .top-guide-divisor{
@@ -62,6 +63,16 @@
 
 .bottom-guide-divisor{
   margin-bottom: 0;
+}
+
+//sidebar
+
+#menu3{
+  margin-left: 5%;
+}
+
+#menu4{
+  margin-left: 5%;
 }
 
 //Forum
@@ -74,6 +85,36 @@
   padding-left: 1.4%;
 }
 
+.group-image{
+  width: 100px;
+  height:100px;
+}
 
 
-   
+.add-resource{
+  margin-top: 4%;
+}
+
+.inner-navegation{
+  list-style-type: none;
+  padding: 0;
+  text-align: center;
+  li{
+    display: inline;
+    padding-left: 20px;
+    a{
+      text-decoration: none;
+      font-size: 2em;
+      padding: .2em 1em;
+       color: #fff;
+       background-color: #036;
+       &:hover{
+         color: #fff;
+         background-color: #369;
+       }
+    }
+  }
+}
+
+
+  
