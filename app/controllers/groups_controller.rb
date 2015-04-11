@@ -2,12 +2,11 @@ class GroupsController < ApplicationController
   before_action :require_user 
   before_action :require_admin, only: [:create]
   before_action :require_membership, only:[:group_posts, :group_guides]
+  before_action :set_new_post_and_invitation, except: [:create]
 
   def index
     @group = Group.new
     @groups = current_user.groups.to_a
-    @invitation = Invitation.new
-    @post = Post.new
   end
 
   def create
@@ -25,7 +24,6 @@ class GroupsController < ApplicationController
   def group_posts
     @group = Group.find(params[:group_id])
     @posts = @group.posts.order("created_at DESC")
-    @post = Post.new
   end
 
   def group_guides

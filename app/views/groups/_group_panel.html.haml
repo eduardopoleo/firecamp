@@ -1,0 +1,12 @@
+.panel.panel-default.group-panel
+  .panel-heading
+    .panel-title.text-center #{group.name}
+    .small.text-center Since #{datetime_for_view(group)}
+  .panel-body
+    = image_tag("#{group.group_cover.to_s}", class: "img-responsive")
+    %p.group-description #{group.description}
+    %ul.group-info
+      %li Members (#{group.users.size})
+      %li Messages (#{group.posts.size})  
+  .panel-footer
+    = link_to 'Visit Group', group_posts_path(group), class: 'btn btn-warning btn-block', id: "group_#{group.id}"

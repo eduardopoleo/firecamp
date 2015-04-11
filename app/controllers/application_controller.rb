@@ -20,6 +20,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def set_new_post_and_invitation
+    @post = Post.new
+    @invitation = Invitation.new
+  end
+
   def require_admin
     if !current_user.admin
       flash[:error] = "Sorry but you need admin privileges to do that!"

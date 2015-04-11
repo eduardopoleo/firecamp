@@ -34,6 +34,19 @@
 }
 
 // Group page styling
+
+#new_group{
+  margin-top: 4%;
+  display: none;
+}
+
+.group-panel{
+  margin-top: 5%;
+}
+
+.group-description{
+  margin-top: 5%;
+}
 #group-create-button{
   margin-bottom: 2%;
 }
@@ -81,6 +94,10 @@
   height: auto;
 }
 
+#new_post{
+  margin-top: 4%;
+}
+
 .date-in-posts{
   padding-left: 1.4%;
 }
@@ -90,6 +107,9 @@
   height:100px;
 }
 
+.extra-class{
+ float: right; 
+}
 
 .add-resource{
   margin-top: 4%;
