@@ -48,12 +48,12 @@ class UsersController < ApplicationController
   end
 
   def create_invited_user
-    invitation = Invitation.where(token: params[:token]).first
+    @invitation = Invitation.where(token: params[:token]).first
 
-    if invitation
+    if @invitation
       @user = User.new(user_params)
       if @user.save
-        invitation.add_groups_to_new_user(@user)
+        @invitation.add_groups_to_new_user(@user)
         session[:user_id] = @user.id
         redirect_to groups_path
       else
