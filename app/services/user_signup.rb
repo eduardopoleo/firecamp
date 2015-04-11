@@ -16,7 +16,7 @@ class UserSignup
         @status = :success
         @user.save
         @user.update_attribute(:admin, true)
-        AppMailer.welcome_notification(@user).deliver
+        AppMailer.delay.welcome_notification(@user)
         self
       else
         @status = :failed

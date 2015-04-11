@@ -4,7 +4,7 @@ class ForgotPasswordsController < ApplicationController
   def create
     @user = User.where(email: params[:email]).first
     if @user 
-      AppMailer.send_forgot_password(@user).deliver
+      AppMailer.delay.send_forgot_password(@user)
       redirect_to forgot_passwords_confirmation_path
     else
       flash[:error] = params[:email].blank? ? "Email adress field can not be blank" : "There is not account associated with that email" 

@@ -10,7 +10,7 @@ class InvitationsController < ApplicationController
     @invitation = Invitation.new(invitation_params)
     if @invitation.save
       @invitation.update_attribute(:token, SecureRandom.urlsafe_base64)
-      AppMailer.send_invitation(current_user, @invitation).deliver
+      AppMailer.delay.send_invitation(current_user, @invitation)
       redirect_to new_invitation_path
     else
       render :new
