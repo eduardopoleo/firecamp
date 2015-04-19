@@ -4,5 +4,5 @@
       %h1 Forgot Password?
       %p We will send you an email with a link...
       = label_tag :email, "Email Adress"
-      = text_field_tag :email,nil
+      = text_field_tag :email,nil, id: 'user_email'
       %input(type="submit" value="Send Email")

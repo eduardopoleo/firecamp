@@ -37,11 +37,10 @@ describe ForgotPasswordsController do
       let(:user){Fabricate(:user)}
       before{post :create, email: user.email}
 
-      #Sidekid
-      # it 'sends the email containing the link to the user email' do
-      #   expect(ActionMailer::Base.deliveries.last.to).to eq([user.email])
-      #   ActionMailer::Base.deliveries.clear
-      # end
+      it 'sends the email containing the link to the user email' do
+        expect(ActionMailer::Base.deliveries.last.to).to eq([user.email])
+        ActionMailer::Base.deliveries.clear
+      end
 
       it 'redirect to the forgot_password_confirmation path' do
         expect(response).to redirect_to forgot_passwords_confirmation_path

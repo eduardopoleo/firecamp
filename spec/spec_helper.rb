@@ -5,7 +5,9 @@ require 'rspec/rails'
 require 'capybara/rails'
 require 'capybara/email/rspec'
 require 'database_cleaner'
+require 'sidekiq/testing'
 require 'vcr'
+Sidekiq::Testing.inline!
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 

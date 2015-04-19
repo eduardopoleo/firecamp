@@ -5,18 +5,19 @@ feature "User sign up" do
     john = Fabricate(:user, email: 'john@gmail.com', password: 'password', full_name: 'John Modales')
     visit root_path
     click_link('Forgot Password?')
-    fill_in('Email Adress', with: 'john@gmail.com')
+    fill_in('user_email', with: 'john@gmail.com')
     click_button('Send Email')
 
     open_email(john.email)
     current_email.click_link('Reset My Password')
     expect(page).to have_content('New Password')
 
-    fill_in('New Password', with: 'new_password')
+
+    fill_in('new_password', with: 'newpassword')
     click_button('Reset Password')
-    
+
     fill_in 'email', with: 'john@gmail.com' 
-    fill_in 'password', with: 'new_password' 
+    fill_in 'password', with: 'newpassword' 
     click_button 'Log In'
     expect(page).to have_content('You have successfully logged in!')
     click_link('Log Out')
