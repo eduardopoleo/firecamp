@@ -23,7 +23,7 @@ describe SessionsController do
       before{post :create, email: 'joe@gmail.com', password: 'password'}
        
       it 'redirects to the new action ' do
-        expect(response).to redirect_to login_path
+        expect(response).to redirect_to root_path
       end
 
       it 'does not set the user id into the session' do

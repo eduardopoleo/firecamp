@@ -3,8 +3,11 @@ Rails.application.routes.draw do
   root 'welcome#landing_page'
 
   resources :users, except: [:destroy]
-  get '/invited_user/:token', to: 'users#invited_user', as: 'invited_user'
-  post '/create_invited_user', to: 'users#create_invited_user', as: 'create_invited_user'
+
+  resources :groups do
+    resources :posts, only: [:index, :create]
+    resources :guides, only: [:index, :create, :show]
+  end
 
   get 'ui(/:action)', controller: 'ui'
   post '/login', to: 'sessions#create', as: 'login'
@@ -17,13 +20,8 @@ Rails.application.routes.draw do
   resources :password_resets, only: [:show, :create]
   get '/expired_token', to: 'password_resets#expired_token'
 
-  resources :groups, only: [:index, :create]
-  resources :posts, only: [:create]
-  get 'group_posts/:group_id', to: 'groups#group_posts', as: 'group_posts'
-  get 'group_guides/:group_id', to: 'groups#group_guides', as: 'group_guides'
-
-  resources :guides, only: [:show, :create]
-
   resources :invitations, only: [:new, :create]
   get '/expired_invitation', to: 'invitations#expired_invitation', as: 'expired_invitation'
+  get '/invited_user/:token', to: 'users#invited_user', as: 'invited_user'
+  post '/create_invited_user', to: 'users#create_invited_user', as: 'create_invited_user'
 end

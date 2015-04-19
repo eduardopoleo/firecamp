@@ -58,7 +58,7 @@ describe InvitationsController do
           group1 = Fabricate(:group)
           group2 = Fabricate(:group)
           post :create, invitation: {email: 'rich@gmail.com', group_ids: ["1", "2", ""]}
-          expect(ActionMailer::Base.deliveries.last.to).to eq([Invitation.first.email])
+          expect(ActionMailer::Base.deliveries.last.to).to eq(['rich@gmail.com'])
           ActionMailer::Base.deliveries.clear
         end
 

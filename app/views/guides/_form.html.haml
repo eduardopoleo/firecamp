@@ -1,0 +1,6 @@
+= bootstrap_form_for([@group, @guide]) do |f|
+  = f.text_field :title
+  = f.text_field :description
+  = f.text_field :category
+  = f.text_area :content, rows: 6
+  = f.submit "Create Guide!"

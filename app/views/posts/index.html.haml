@@ -1,0 +1,22 @@
+.row
+  .col-xs-3
+    = render "shared/sidebar"
+  .col-xs-8.main-column
+    .row.header-row
+      .col-xs-2.bordered-image-container
+        = image_tag("#{@group.group_cover.to_s}", class: "group-image")
+        %p.text-center #{@group.name}
+      .col-xs-10.extra-class
+        %ul.inner-navegation
+          %li
+            = link_to 'Messages', group_posts_path(@group) 
+          %li
+            = link_to 'Guides', group_guides_path(@group)
+    .row
+      .col-xs-12.add-messages
+        %button.btn-success.add-resource#post-button
+          + Post
+        %div#post-form{class: "#{@post.errors.blank? ? 'hidden-form' : 'visible-form'}"}  
+          = render 'posts/form'
+        - @posts.each do |post|
+          = render partial: 'posts/post', locals: {post: post}

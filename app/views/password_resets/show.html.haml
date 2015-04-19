@@ -5,6 +5,6 @@
     %fieldset
       = hidden_field_tag :token, @token 
       = label_tag :password, "New Password"
-      = text_field_tag :password, nil
+      = text_field_tag :password, nil, id: 'new_password'
     %fieldset.form-group.action
       %input(type="submit" value="Reset Password")

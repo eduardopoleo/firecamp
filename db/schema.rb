@@ -11,24 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150410183353) do
+ActiveRecord::Schema.define(version: 20150419005006) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "group_guides", force: true do |t|
-    t.integer  "group_id"
-    t.integer  "guide_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "group_posts", force: true do |t|
-    t.integer  "group_id"
-    t.integer  "post_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "groups", force: true do |t|
     t.string   "name"
@@ -46,6 +32,7 @@ ActiveRecord::Schema.define(version: 20150410183353) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "content"
+    t.integer  "group_id"
   end
 
   create_table "invitation_groups", force: true do |t|
@@ -68,6 +55,7 @@ ActiveRecord::Schema.define(version: 20150410183353) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "group_id"
   end
 
   create_table "user_groups", force: true do |t|
@@ -78,13 +66,15 @@ ActiveRecord::Schema.define(version: 20150410183353) do
   end
 
   create_table "users", force: true do |t|
-    t.string  "email"
-    t.string  "full_name"
-    t.string  "password_digest"
-    t.boolean "admin"
-    t.integer "group_id"
-    t.string  "token"
-    t.string  "avatar"
+    t.string   "email"
+    t.string   "full_name"
+    t.string   "password_digest"
+    t.boolean  "admin"
+    t.integer  "group_id"
+    t.string   "token"
+    t.string   "avatar"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

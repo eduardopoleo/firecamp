@@ -1,24 +1,34 @@
 class GuidesController < ApplicationController
   before_action :require_user
-  before_action :require_admin, only: [:create]
+  before_action :require_membership
+  before_action :set_new_invitation
+
+  def index
+    @group = Group.find(params[:group_id])
+    @guides = @group.guides.to_a.delete_if(&:new_record?)
+    @guide = @group.guides.build
+  end
 
   def create
-    @guide = Guide.new(guide_params.merge!(admin: current_user))
+    @group = Group.find(params[:group_id])
+    @guide = @group.guides.build(guide_params.merge!(user: current_user))
     if @guide.save
-      flash[:success] = 'You post has been created'
-      redirect_to :back
+      flash[:success] = "Your guide has been created."
+      redirect_to group_guides_path(@group)
     else
-      render 'groups/group_guides'
+      @guides = @group.guides.to_a.delete_if(&:new_record?)
+      render :index
     end
   end
 
   def show
+    @group = Group.find(params[:group_id])
     @guide = Guide.find(params[:id])
   end
 
   private
 
   def guide_params
-    params.require(:guide).permit!
+    params.require(:guide).permit(:title, :content, :description, :category)
   end
 end

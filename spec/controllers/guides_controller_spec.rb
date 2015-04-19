@@ -1,103 +1,152 @@
 require 'spec_helper'
 
 describe GuidesController do
-  let(:group) {Fabricate(:group)}
+  describe 'Get index' do
+    context 'Authenticated and member' do
+      let(:user) {Fabricate(:user)} 
+      let(:group) {Fabricate(:group, users: [user])}
+      before {session[:user_id] = user.id}
 
-  context 'with logged in user' do
-    let(:rich) {Fabricate(:admin)}
-    before{session[:user_id] = rich.id}
-
-    describe 'Post create' do
-      context 'with valid input' do
-        before do
-          request.env["HTTP_REFERER"] = "http://fake.host"
-        end
-
-        it 'redirects back' do
-          group1 = Fabricate(:group)
-          group2 = Fabricate(:group)
-          post :create, guide: {title: 'This is some title', content: 'This is some content', group_ids: ["1", "2", ""]} 
-          expect(response).to redirect_to "http://fake.host"
-        end
-                
-        it 'creates a guide' do
-          group1 = Fabricate(:group)
-          group2 = Fabricate(:group)
-          post :create, guide: {title: 'This is some title', content: 'This is some content', group_ids: ["1", "2", ""]} 
-          expect(Guide.count).to eq(1)
-        end
-
-        it 'sets a flash message' do
-          group1 = Fabricate(:group)
-          group2 = Fabricate(:group)
-          post :create, guide: {title: 'This is some title', content: 'This is some content', group_ids: ["1", "2", ""]} 
-          expect(flash[:success]).to be_present
-        end
-
-        it 'sets the guide user' do
-          group1 = Fabricate(:group)
-          group2 = Fabricate(:group)
-          post :create, guide: {title: 'This is some title', content: 'This is some content', group_ids: ["1", "2", ""]} 
-          expect(Guide.first.admin).to eq(rich)
-        end
-
-        it 'sets the guide groups' do
-          group1 = Fabricate(:group)
-          group2 = Fabricate(:group)
-          post :create, guide: {title: 'This is some title', content: 'This is some content', group_ids: ["1", "2", ""]} 
-          expect(Guide.first.groups).to match_array([group1, group2])
-        end
-        
-        it 'does not create guide if not admin' do
-          juan = Fabricate(:user)
-          session[:user_id] = juan.id
-          post :create, guide: {title: 'This is some title', content: 'dslkfskj flaksjdf', group_ids: ["#{group.id}"]}
-          expect(Guide.count).to eq(0)
-        end
+      it 'renders the index templlte' do
+        get :index, group_id: group.id
+        expect(:response).to render_template :index
       end
 
-      context 'with invalid input' do
-        it 'renders the group guides page' do
-          group1 = Fabricate(:group)
-          group2 = Fabricate(:group)
-          post :create, guide: {title: '', content: 'This is some content', group_ids: ["1", "2", ""]} 
-          expect(response).to render_template 'group_guides'
-        end
-        
-        it 'renders the group guides page' do
-          group1 = Fabricate(:group)
-          group2 = Fabricate(:group)
-          post :create, guide: {title: '', content: 'This is some content', group_ids: ["1", "2", ""]} 
-          expect(Guide.count).to eq(0)
-        end
+      it 'sets the guides variables' do
+        guide1 = Fabricate(:guide, group: group)
+        guide2 = Fabricate(:guide, group: group)
+        get :index, group_id: group.id
+        expect(assigns(:guides)).to eq([guide2, guide1])
+      end
 
-        it 'sets the guide instance variable' do
-          group1 = Fabricate(:group)
-          group2 = Fabricate(:group)
-          post :create, guide: {title: '', content: 'This is some content', group_ids: ["1", "2", ""]} 
-          expect(assigns(:guide)).to be_a_new(Guide)
-        end
+      it 'sets a new invitation variable' do
+        get :index, group_id: group.id
+        expect(assigns(:invitation)).to be_a_new(Invitation)
+      end
+
+      it 'sets a new guide variable' do
+        get :index, group_id: group.id
+        expect(assigns(:guide)).to be_a_new(Guide)
       end
     end
-    
-    describe 'Get Show action' do
-      let(:guide) {Fabricate(:guide)}
-      before{get :show, id: guide.id}
 
-      it 'renders the show template' do
-        expect(response).to render_template :show
+    context 'unauthenticated user' do
+      it 'redirects to the root path' do
+        group = Fabricate(:group)
+        get :index, group_id: group.id
+        expect(:response).to redirect_to root_path
       end
+    end
 
-      it 'sets the guide instance variable' do
-        expect(assigns(:guide)).to eq(guide)
+    context 'without membership' do
+      let(:user) {Fabricate(:user)} 
+      before {session[:user_id] = user.id}
+
+      it 'redirects to the groups path' do
+        group = Fabricate(:group)
+        get :index, group_id: group.id
+        expect(:response).to redirect_to groups_path
       end
     end
   end
 
-  context 'without logged in user' do
-    it 'redirects to the root_path if there is no user logged in' do
-      get :create, group_id: group.id
-      expect(response).to redirect_to root_path
+  describe 'Post create' do
+    let(:user) {Fabricate(:user)} 
+    let(:group) {Fabricate(:group, users: [user])}
+    before {session[:user_id] = user.id}
+
+    context 'with valid input' do
+      it 'redirects to the group guides path' do
+        post :create,
+          group_id: group.id,
+          guide: Fabricate.attributes_for(:guide) 
+        expect(response).to redirect_to group_guides_path(group)
+      end
+
+      it 'creates a guide' do
+        post :create,
+          group_id: group.id,
+          guide: Fabricate.attributes_for(:guide) 
+        expect(Guide.count).to eq(1)
+      end
+
+      it 'associates the group' do
+        post :create,
+          group_id: group.id,
+          guide: Fabricate.attributes_for(:guide) 
+        expect(Guide.first.group).to eq(group)
+      end
+
+      it 'associates the user' do
+        post :create,
+          group_id: group.id,
+          guide: Fabricate.attributes_for(:guide) 
+        expect(Guide.first.user).to eq(user)
+      end
+
+      it 'sets flash message' do
+        post :create,
+          group_id: group.id,
+          guide: Fabricate.attributes_for(:guide) 
+        expect(flash[:success]).to be_present
+      end
+    end 
+
+    context 'With invalid input' do
+      it  'renders the index template' do
+        post :create,
+          group_id: group.id,
+          guide: Fabricate.attributes_for(:guide, title: ' ') 
+        expect(response).to render_template :index
+      end
+
+      it  'sets the guide instance variable' do
+        post :create,
+          group_id: group.id,
+          guide: Fabricate.attributes_for(:guide, title: ' ') 
+        expect(assigns(:guide)).to be_a_new(Guide)
+      end
+
+      it  'sets the group instance variable' do
+        post :create,
+          group_id: group.id,
+          guide: Fabricate.attributes_for(:guide, title: ' ') 
+        expect(assigns(:group)).to eq(group)
+      end
+      
+      it  'does not create the guide' do
+        post :create,
+          group_id: group.id,
+          guide: Fabricate.attributes_for(:guide, title: ' ') 
+        expect(Guide.count).to eq(0)
+      end
+
+      it  'sets the guides instance variable' do
+        guide1 = Fabricate(:guide, group: group)
+        guide2 = Fabricate(:guide, group: group)
+        post :create,
+          group_id: group.id,
+          guide: Fabricate.attributes_for(:guide, title: ' ') 
+        expect(assigns(:guides)).to eq([guide2, guide1])
+      end
+    end
+  end
+
+  describe 'Get show' do
+    let(:user) {Fabricate(:user)} 
+    let(:group) {Fabricate(:group, users: [user])}
+    before {session[:user_id] = user.id}
+
+    it 'sets the guide instance variable' do
+      guide = Fabricate(:guide, group: group)
+      get :show, group_id: group.id, id: guide.id
+      expect(assigns(:guide)).to eq(guide)
+    end
+
+    it 'sets the group instance variable' do
+      guide = Fabricate(:guide, group: group)
+      get :show, group_id: group.id, id: guide.id
+      expect(assigns(:group)).to eq(group)
     end
   end
 end

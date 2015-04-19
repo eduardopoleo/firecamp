@@ -1,7 +1,7 @@
 class GroupsController < ApplicationController
   before_action :require_user 
   before_action :require_admin, only: [:create]
-  before_action :require_membership, only:[:group_posts, :group_guides]
+  before_action :set_new_invitation
 
   def index
     @group = Group.new
@@ -18,18 +18,6 @@ class GroupsController < ApplicationController
       @groups = current_user.groups.to_a.delete_if(&:new_record?)
       render :index
     end
-  end
-
-  def group_posts
-    @group = Group.find(params[:group_id])
-    @posts = @group.posts.order("created_at DESC")
-    @post = Post.new
-  end
-
-  def group_guides
-    @group = Group.find(params[:group_id])
-    @guides = @group.guides.order("created_at DESC")
-    @guide = Guide.new
   end
 
   private

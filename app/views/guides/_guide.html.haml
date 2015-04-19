@@ -1,0 +1,7 @@
+.col-xs-3
+  = link_to group_guide_path(group, guide), class: 'text-center thumbnail' do
+    %p.guide-title #{guide.title}
+    %hr.top-guide-divisor
+    %p.guide-description #{guide.description}
+    %hr.bottom-guide-divisor
+    %p.guide-category #{guide.category}

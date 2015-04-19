@@ -7,11 +7,8 @@ class Group < ActiveRecord::Base
   has_many :user_groups
   has_many :users, through: :user_groups
 
-  has_many :group_posts
-  has_many :posts, through: :group_posts
-
-  has_many :group_guides
-  has_many :guides, through: :group_guides
+  has_many :posts, -> { order('created_at DESC') }
+  has_many :guides, -> { order('created_at DESC') }
 
   mount_uploader :group_cover, GroupCoverUploader
 end

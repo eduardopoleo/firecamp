@@ -1,21 +1,24 @@
-.list-group
-  %a.list-group-item{:href => "#"}
-    %span.glyphicon.glyphicon-camera
-    + Group
-    %span.caret
-  = link_to new_invitation_path, class: 'list-group-item' do
-    %span.glyphicon.glyphicon-camera
-    Create Invitation
-    %span.caret 
-  %a.list-group-item.active{:href => "#"}
-    %span.glyphicon.glyphicon-camera
-    + Message 
-  %a.list-group-item{:href => "#"}
-    %span.glyphicon.glyphicon-file
-    + Upload Schedule
-  %a.list-group-item{:href => "#"}
-    %span.glyphicon.glyphicon-music
-    Guides
-  %a.list-group-item{:href => "#"}
-    %span.glyphicon.glyphicon-film
-    Todo list
+%ul.nav.nav-stacked
+  %li.nav-header
+    %a{"data-target" => "#menu2", "data-toggle" => "collapse", :href => "#"}
+      Groups
+      %i.glyphicon.glyphicon-chevron-right
+    %ul#menu2.nav.nav-stacked.collapse
+      %li
+        = link_to groups_path do
+          All Groups
+      - current_user.groups.each do |group|
+        %li
+          = link_to group_posts_path(group) do
+            = group.name
+  %li.nav-header
+    %a{"data-target" => "#menu3", "data-toggle" => "collapse", :href => "#"}
+      Send Invitation
+      %i.glyphicon.glyphicon-chevron-right
+    %ul#menu3.nav.nav-stacked.collapse
+      %li
+        = bootstrap_form_for(@invitation) do |f|
+          = f.email_field :email
+          = f.form_group :groups do
+            = f.collection_check_boxes :group_ids, current_user.groups.all, :id, :name
+          = f.submit "Send Invitation" 

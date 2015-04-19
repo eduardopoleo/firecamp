@@ -1,0 +1,17 @@
+.media
+  .media-left
+    = link_to user_path(post.user) do
+      - if post.user.avatar.blank?
+        = image_tag("placeholder.png", class: "media-object resize")
+      -else
+        = image_tag("#{post.user.avatar}", class: "media-object resize")
+    %small #{post.user.full_name.split(" ")[0]}
+  .media-body
+    %h4.media-heading #{post.title}
+    .row
+      .col-xs-11
+        #{post.content}
+      .col-xs-1
+        %span.glyphicon.glyphicon-heart{"aria-hidden" => "true"}
+    .row        
+      %small.date-in-posts #{datetime_for_view(post)}

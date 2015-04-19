@@ -2,32 +2,15 @@
   .col-xs-3
     =render "shared/sidebar"
   .col-xs-9
-    %h1.feature-title.text-center Groups
-    %button.btn-success#group-create-button
+    %h1.feature-title.text-center Your Groups
+    %button.btn-success#group-button
       + Group
     .row
       .col-xs-4
-        = bootstrap_form_for(@group) do |f|
-          = f.text_field :name
-          = f.text_field :description
-          = f.file_field :group_cover, class: 'btn btn-file'
-          = f.submit "Create Group"
-        %br
+        = render "form"
+      %br
     - @groups.each_slice(4) do |groups|
       .row
         - groups.each do |group|
           .col-xs-3.feature
-            .panel.panel-default
-              .panel-heading
-                .panel-title #{group.name}
-                .small #{group.created_at}
-              .panel-body
-                = image_tag("#{group.group_cover.to_s}", class: "img-responsive")
-                = group.description
-                %ul.group-info
-                  %li Members (56)
-                  %li Pending Lists (1)
-                  %li Messages (3)  
-              .panel-footer
-                = link_to '-> Visit Group', group_posts_path(group), class: 'btn btn-warning btn-block', id: "group_#{group.id}"
-          
+            = render partial: 'group_panel', locals: {group: group}          

@@ -7,22 +7,35 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      %a.navbar-brand{:href => "#"} Firecamp
+          
+      %a.navbar-brand{:href => "#"}
+        Firecamp
     / Collect the nav links, forms, and other content for toggling
     #bs-example-navbar-collapse-1.collapse.navbar-collapse
       %ul.nav.navbar-nav.navbar-right
         %li
-          %a{:href => "#"} Liked Messages   
+          %a{:href => "#"} About
         %li
-          %a{:href => "#"} Schedules   
-        - if current_user
+          %a{:href => "#"} Services
+        %li
+          %a{:href => "#"} Contact
+        - if !current_user
+          %li.dropdown
+            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+              Log In
+              %strong.caret
+            .dropdown-menu{:style => "padding: 15px; padding-bottom: 0px;"}
+              = bootstrap_form_tag url: login_path do |f|
+                = f.text_field :email, hide_label: true, placeholder: 'Email'
+                = f.password_field :password, hide_label: true, placeholder: 'Password'
+                = link_to "Forgot Password?", new_password_path 
+                = f.submit "Log In" 
+        - else
           %li.dropdown
             %a.dropdown-toggle#logout-button{"aria-expanded" => "false", "data-toggle" => "dropdown", :href => "#", :role => "button"}
               %span.glyphicon.glyphicon-user
               %span.caret
             %ul.dropdown-menu{:role => "menu"}
-              %li
-                %a{:href => "#"} Settings
               %li
                 = link_to 'Profile', user_path(current_user) 
               %li

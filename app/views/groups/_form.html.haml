@@ -1,0 +1,5 @@
+= bootstrap_form_for(@group)  do |f|
+  = f.text_field :name
+  = f.text_field :description
+  = f.file_field :group_cover, class: 'btn btn-file'
+  = f.submit "Create Group"
