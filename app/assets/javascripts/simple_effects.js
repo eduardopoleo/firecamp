@@ -2,12 +2,13 @@ $(function() {
   $('#group-button').click(function(){
     $('#new_group').slideToggle();
   });
-});
 
-$(function() {
   $('#post-button').click(function(){
-    $('.new_post').slideToggle();
+    $('#post-form').slideToggle();
+  });
+
+  $('#guide-button').click(function(){
+    $('#guide-form').slideToggle();
   });
 });
-
 

@@ -1,86 +1,85 @@
 require 'spec_helper'
 
 describe PostsController do
-  describe "Post Create" do
-    context 'with logged in user' do
-      let (:rich) {Fabricate(:admin)}
+  let(:user) {Fabricate(:user)}
+  let(:group) {Fabricate(:group, users: [user])}
+  before {session[:user_id] = user.id}
+
+  describe 'GET index' do
+    it 'renders the index template' do
+      get :index, group_id: group.id 
+      expect(response).to render_template :index
+    end
+
+    it 'sets the posts variables' do
+      post1 = Fabricate(:post, group: group)
+      post2 = Fabricate(:post, group: group)
+      get :index, group_id: group.id 
+      expect(assigns(:posts).to_a).to eq([post2, post1])
+    end
+
+    it 'sets a new instance of post' do
+      get :index, group_id: group.id 
+      expect(assigns(:post)).to be_a_new(Post)
+    end 
+  end
+
+  describe 'Post create' do
+    context 'with valid input' do
       before do
-        request.env["HTTP_REFERER"] = "http://fake.host"
-        session[:user_id] = rich.id
-      end
-      context 'with valid input' do
-        it 'redirects back' do
-          group1 = Fabricate(:group)
-          group2 = Fabricate(:group)
-          post :create, post: {title: 'This is some title', content: 'This is some content', group_ids: ["1", "2", ""]} 
-          expect(response).to redirect_to "http://fake.host"
-        end
-
-        it 'creates a post' do
-          group1 = Fabricate(:group)
-          group2 = Fabricate(:group)
-          post :create, post: {title: 'This is some title', content: 'This is some content', group_ids: ["1", "2", ""]} 
-          expect(Post.count).to eq(1)
-        end
-
-        it 'creates a post related to various groups' do
-          group1 = Fabricate(:group)
-          group2 = Fabricate(:group)
-          post :create, post: {title: 'This is some title', content: 'This is some content', group_ids: ["1", "2", ""]}
-          expect(Post.first.groups).to eq([group1, group2])
-        end
-
-        it 'creates a post related to the current user' do
-          group1 = Fabricate(:group)
-          group2 = Fabricate(:group)
-          post :create, post: {title: 'This is some title', content: 'This is some content', group_ids: ["1", "2", ""]}
-          expect(Post.first.user).to eq(rich)
-        end
-
-        it 'sets a flash message' do
-          group1 = Fabricate(:group)
-          group2 = Fabricate(:group)
-          post :create, post: {title: 'This is some title', content: 'This is some content', group_ids: ["1", "2", ""]}
-          expect(flash[:success]).to be_present
-        end
+        post :create,
+          group_id: group.id,
+          post: Fabricate.attributes_for(:post, group: group)
       end
 
-      context 'with invalid input' do
-        it 'does not create a post with content smaller than 2 characters' do
-          group1 = Fabricate(:group)
-          group2 = Fabricate(:group)
-          post :create, post: {title: 'This is some title', content: '', group_ids: ["1", "2", ""]}
-          expect(Post.count).to eq(0)
-        end
-
-        it 'renders the page' do
-          group1 = Fabricate(:group)
-          group2 = Fabricate(:group)
-          post :create, post: {title: 'This is some title', content: '', group_ids: ["1", "2", ""]}
-          expect(response).to render_template :group_posts
-        end
-
-        it 'does not create a post with no group associated' do
-          group1 = Fabricate(:group)
-          group2 = Fabricate(:group)
-          post :create, post: {title: 'This is some title', content: 'dslkfskj flaksjdf', group_ids: [""]}
-          expect(Post.count).to eq(0)
-        end
+      it 'redirects to the index action' do
+        expect(response).to redirect_to group_posts_path
       end
 
-      it 'does not create post if not admin' do
-        juan = Fabricate(:user)
-        session[:user_id] = juan.id
-        group1 = Fabricate(:group)
-        post :create, post: {title: 'This is some title', content: 'dslkfskj flaksjdf', group_ids: ["1"]}
-        expect(Post.count).to eq(0)
+      it 'creates a post' do
+        expect(Post.count).to eq(1)
+      end
+
+      it 'creates a post associated with the group' do
+        expect(Post.first.group).to eq(group)
+      end
+
+      it 'creates a post associated with the user' do
+        expect(Post.first.user).to eq(user)
+      end
+
+      it 'sets a flash message' do
+        expect(flash[:success]).to be_present
       end
     end
 
-    context 'with no logged in user' do
-      it 'redirects to the root path if there is no user logged in' do
-        post :create, post: Fabricate.attributes_for(:post)
-        expect(response).to redirect_to root_path
+    context 'with invalid input' do
+      it 'renders the index action' do
+        post :create,
+          group_id: group.id,
+          post: Fabricate.attributes_for(:post, group: group, content: '')
+        expect(response).to render_template :index
+      end
+
+      it 'does not create a post' do
+        post :create, 
+          group_id: group.id,
+          post: Fabricate.attributes_for(:post, group: group, content: '')
+        expect(Post.count).to eq(0)
+      end
+
+      it 'sets the group variable' do
+        post :create,
+          group_id: group.id,
+          post: Fabricate.attributes_for(:post, group: group, content: '')
+        expect(assigns(:group)).to eq(group)
+      end
+
+      it 'sets the post variable' do
+        post :create,
+          group_id: group.id,
+          post: Fabricate.attributes_for(:post, group: group, content: '')
+        expect(assigns(:post)).to be_a_new(Post)
       end
     end
   end

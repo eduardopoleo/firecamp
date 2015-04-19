@@ -19,6 +19,10 @@
 @import "bootstrap";
 
 
+.navbar{
+  margin-bottom: 0px;
+}
+
 .small-panels{
   list-style: none;
   display: inline;
@@ -34,6 +38,17 @@
 }
 
 // Group page styling
+.main-column{
+  margin-top: 1.5%;
+}
+
+.hidden-form{
+  display: none; 
+}
+
+.visible-form{
+  visibility: visible; 
+}
 
 #new_group{
   margin-top: 4%;
@@ -47,9 +62,10 @@
 .group-description{
   margin-top: 5%;
 }
-#group-create-button{
+#group-button{
   margin-bottom: 2%;
 }
+
 .feature-title{
   margin-top: 0;
 
@@ -71,6 +87,41 @@
 //Guides styling
 
 .top-guide-divisor{
+  border-color: black; 
+}
+
+.bottom-guide-divisor{
+  border-color: black; 
+}
+
+#guide-button{
+  margin-bottom: 2%
+}
+
+.thumbnail{
+  &:hover{
+    text-decoration: none;
+  }
+}
+.guide-title{
+  font-weight: 200; 
+  font-size: 1.5em;
+  color: black;
+  &:hover{
+    text-decoration: none; 
+  }
+}
+
+.guide-description{
+  font-weight: 200; 
+  color: black;
+}
+
+.guide-category{
+  color: red;
+}
+
+.top-guide-divisor{
   margin-top: 0;
 }
 
@@ -88,6 +139,8 @@
   margin-left: 5%;
 }
 
+
+
 //Forum
 .resize{
   width:64px; /* you can use % */
@@ -99,7 +152,7 @@
 }
 
 .date-in-posts{
-  padding-left: 1.4%;
+  padding-left: 1.7%;
 }
 
 .group-image{
@@ -136,5 +189,7 @@
   }
 }
 
+//users page
 
-  
+
+

@@ -1,0 +1,9 @@
+= bootstrap_form_for @guide do |f|
+  = f.text_field :title
+  = f.text_field :description
+  = f.text_field :category
+  = f.text_area :content, rows: 6
+  = f.form_group :groups do
+    = f.collection_check_boxes :group_ids, current_user.groups.all, :id, :name
+  = hidden_field_tag 'group_id', @group.id
+  = f.submit "Create Guide!"

@@ -28,11 +28,6 @@
       %i.glyphicon.glyphicon-chevron-right
     %ul#menu4.nav.nav-stacked.collapse
       %li
-        = bootstrap_form_for(@post) do |f|
-          = f.text_field :title
-          = f.text_area :content
-          = f.form_group :groups do
-            = f.collection_check_boxes :group_ids, current_user.groups.all, :id, :name
-          = f.submit "Send Invitation"
+        = render 'posts/form'
   %li.nav-header         
     = link_to 'Create Guide', new_guide_path

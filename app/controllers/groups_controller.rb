@@ -2,7 +2,7 @@ class GroupsController < ApplicationController
   before_action :require_user 
   before_action :require_admin, only: [:create]
   before_action :require_membership, only:[:group_posts, :group_guides]
-  before_action :set_new_post_and_invitation, except: [:create]
+  before_action :set_new_post_and_invitation
 
   def index
     @group = Group.new
