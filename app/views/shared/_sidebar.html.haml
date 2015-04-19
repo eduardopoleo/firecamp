@@ -22,12 +22,3 @@
           = f.form_group :groups do
             = f.collection_check_boxes :group_ids, current_user.groups.all, :id, :name
           = f.submit "Send Invitation" 
-  %li.nav-header
-    %a{"data-target" => "#menu4", "data-toggle" => "collapse", :href => "#"}
-      Create Post
-      %i.glyphicon.glyphicon-chevron-right
-    %ul#menu4.nav.nav-stacked.collapse
-      %li
-        = render 'posts/form'
-  %li.nav-header         
-    = link_to 'Create Guide', new_guide_path

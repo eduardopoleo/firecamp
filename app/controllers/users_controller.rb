@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :require_user, only: [:edit]
-  before_action :set_new_post_and_invitation
+  before_action :set_new_invitation
 
   def new
     @user = User.new

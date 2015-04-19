@@ -1,10 +1,12 @@
 class GuidesController < ApplicationController
   before_action :require_user
   before_action :require_membership
+  before_action :set_new_invitation
 
   def index
     @group = Group.find(params[:group_id])
-    @guides = @group.guides
+    @guides = @group.guides.to_a.delete_if(&:new_record?)
+    @guide = @group.guides.build
   end
 
   def create
@@ -17,6 +19,11 @@ class GuidesController < ApplicationController
       @guides = @group.guides.to_a.delete_if(&:new_record?)
       render :index
     end
+  end
+
+  def show
+    @group = Group.find(params[:group_id])
+    @guide = Guide.find(params[:id])
   end
 
   private

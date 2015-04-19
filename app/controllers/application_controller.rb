@@ -20,8 +20,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def set_new_post_and_invitation
-    @post = Post.new
+  def set_new_invitation
     @invitation = Invitation.new
   end
 

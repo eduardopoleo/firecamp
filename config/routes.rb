@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   resources :groups do
     resources :posts, only: [:index, :create]
-    resources :guides, only: [:index, :create]
+    resources :guides, only: [:index, :create, :show]
   end
 
   get 'ui(/:action)', controller: 'ui'

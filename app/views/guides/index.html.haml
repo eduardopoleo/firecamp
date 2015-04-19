@@ -23,4 +23,4 @@
         - @guides.each_slice(4) do |guides|
           .row
             - guides.each do |guide|
-              = render partial: 'guides/guide', locals: {guide: guide}
+              = render partial: 'guides/guide', locals: {guide: guide, group: @group}

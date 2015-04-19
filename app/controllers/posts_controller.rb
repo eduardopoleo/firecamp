@@ -1,11 +1,12 @@
 class PostsController < ApplicationController
   before_action :require_membership
   before_action :require_user
+  before_action :set_new_invitation
 
   def index
     @group = Group.find(params[:group_id])
-    @posts = @group.posts
-    @post = Post.new
+    @posts = @group.posts.to_a.delete_if(&:new_record?)
+    @post = @group.posts.build
   end
 
   def create

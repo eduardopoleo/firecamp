@@ -5,6 +5,8 @@ describe PostsController do
   let(:group) {Fabricate(:group, users: [user])}
   before {session[:user_id] = user.id}
 
+
+
   describe 'GET index' do
     it 'renders the index template' do
       get :index, group_id: group.id 
@@ -22,6 +24,11 @@ describe PostsController do
       get :index, group_id: group.id 
       expect(assigns(:post)).to be_a_new(Post)
     end 
+
+    it 'sets the new invitation instance variable' do
+      get :index, group_id: group.id 
+      expect(assigns(:invitation)).to be_a_new(Invitation)
+    end
   end
 
   describe 'Post create' do

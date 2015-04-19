@@ -18,6 +18,16 @@ describe GuidesController do
         get :index, group_id: group.id
         expect(assigns(:guides)).to eq([guide2, guide1])
       end
+
+      it 'sets a new invitation variable' do
+        get :index, group_id: group.id
+        expect(assigns(:invitation)).to be_a_new(Invitation)
+      end
+
+      it 'sets a new guide variable' do
+        get :index, group_id: group.id
+        expect(assigns(:guide)).to be_a_new(Guide)
+      end
     end
 
     context 'unauthenticated user' do
@@ -119,6 +129,24 @@ describe GuidesController do
           guide: Fabricate.attributes_for(:guide, title: ' ') 
         expect(assigns(:guides)).to eq([guide2, guide1])
       end
+    end
+  end
+
+  describe 'Get show' do
+    let(:user) {Fabricate(:user)} 
+    let(:group) {Fabricate(:group, users: [user])}
+    before {session[:user_id] = user.id}
+
+    it 'sets the guide instance variable' do
+      guide = Fabricate(:guide, group: group)
+      get :show, group_id: group.id, id: guide.id
+      expect(assigns(:guide)).to eq(guide)
+    end
+
+    it 'sets the group instance variable' do
+      guide = Fabricate(:guide, group: group)
+      get :show, group_id: group.id, id: guide.id
+      expect(assigns(:group)).to eq(group)
     end
   end
 end
