@@ -1,0 +1,5 @@
+= bootstrap_form_for(@invitation) do |f|
+  = f.email_field :email
+  = f.form_group :groups do
+    = f.collection_check_boxes :group_ids, current_user.groups.all, :id, :name, label: "Choose Groups"
+  = f.submit "Send Invitation"

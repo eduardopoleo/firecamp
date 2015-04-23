@@ -6,19 +6,16 @@
     %ul#menu2.nav.nav-stacked.collapse
       %li
         = link_to groups_path do
-          All Groups
+          <i class="fa fa-users"></i> All Groups
       - current_user.groups.each do |group|
         %li
-          = link_to group_posts_path(group) do
-            = group.name
+          %ul
+            = link_to group_posts_path(group) do
+              %li #{group.name}
   %li.nav-header
     %a{"data-target" => "#menu3", "data-toggle" => "collapse", :href => "#"}
       Send Invitation
       %i.glyphicon.glyphicon-chevron-right
     %ul#menu3.nav.nav-stacked.collapse
       %li
-        = bootstrap_form_for(@invitation) do |f|
-          = f.email_field :email
-          = f.form_group :groups do
-            = f.collection_check_boxes :group_ids, current_user.groups.all, :id, :name
-          = f.submit "Send Invitation" 
+        = render 'invitations/form'

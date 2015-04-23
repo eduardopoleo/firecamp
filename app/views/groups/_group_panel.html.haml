@@ -2,8 +2,9 @@
   .panel-heading
     .panel-title.text-center #{group.name}
     .small.text-center Since #{datetime_for_view(group)}
+  = link_to group_posts_path(group) do
+    = image_tag("#{group.group_cover.to_s}", class: "img-responsive panel-image")
   .panel-body
-    = image_tag("#{group.group_cover.to_s}", class: "img-responsive")
     %p.group-description #{group.description}
     %ul.group-info
       %li Members (#{group.users.size})

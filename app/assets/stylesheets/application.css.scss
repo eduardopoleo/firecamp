@@ -19,10 +19,79 @@
 @import "bootstrap";
 
 
-.navbar{
-  margin-bottom: 0px;
+body{
+  font-family: "helvetica";
 }
 
+
+.navbar{
+  margin-bottom: 0px;
+  background-color: #0c4b33;
+
+}
+
+.navbar-default .navbar-brand {
+  color: white;
+  font-size: 1.5em;
+  font-weight: 700;
+}
+
+.dropdown.open {
+  background-color: #0c4b33;
+}
+
+.btn-default {
+    background-color: #FF5930;
+    border-color: #E6502B;
+    color: white;
+    &:hover{
+      background-color: #FF6A45;
+      color: white;
+    }
+}
+
+.dropdown-menu{
+  background-color: #245D47;
+}
+
+//When the dropdown is open
+a:hover, .navbar-default .navbar-nav > .open > a:focus {
+    background-color: #245D47;
+    color: #555;
+}
+
+.dropdown-menu > li > a {
+  color: white;
+  font-weight: 700;
+}
+
+.new_invitation{
+  color: #0c4b33;
+}
+
+.nav-header a{
+  color:  #0c4b33;
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+  background-color: #245D47;
+  color: white;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.navbar-default .navbar-brand:hover {
+  color: white;
+}
+
+.glyphicon.glyphicon-user{
+  color: white;
+}
+
+.caret{
+  color: white;
+}
+// Panels
 .small-panels{
   list-style: none;
   display: inline;
@@ -30,11 +99,20 @@
   width:100%;
   padding:0;
 }
-.dropdown-menu{
+
+.panel.panel-default.group-panel{
+  border: solid 1px #245D47;
 }
+
 
 .small-panels li {
   float: left;
+}
+
+.panel-default > .panel-heading {
+  background-color: #245D47;
+  border-color: #ddd;
+  color: white;
 }
 
 // Group page styling
@@ -50,6 +128,14 @@
   visibility: visible; 
 }
 
+.panel-image{
+  border-bottom: solid 1px #245D47;
+  &:hover{
+    opacity: 0.8; 
+  }
+}
+
+
 #new_group{
   margin-top: 4%;
   display: none;
@@ -59,16 +145,31 @@
   margin-top: 5%;
 }
 
+.panel
+
 .group-description{
   margin-top: 5%;
+  font-weight: 400;
 }
+
 #group-button{
   margin-bottom: 2%;
+  background-color: #0c4b33;
+  border-color: #0c4b33;
+  &:hover{
+   background-color: #245D47;
+  }
+
+}
+
+#new_group{
+ color: #0c4b33;
 }
 
 .feature-title{
-  margin-top: 0;
-
+  font-family: 'Knewave';
+  margin-top: 3%;
+  font-size: 4em;
 }
 
 .group-info{
@@ -82,6 +183,7 @@
   height: 60px;
   background-color: black;
 }
+
 
 
 //Guides styling
