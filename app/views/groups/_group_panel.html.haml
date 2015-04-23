@@ -7,7 +7,7 @@
   .panel-body
     %p.group-description #{group.description}
     %ul.group-info
-      %li Members (#{group.users.size})
-      %li Messages (#{group.posts.size})  
+      %li #{group.users.size} Members 
+      %li #{group.posts.size} Messages
   .panel-footer
-    = link_to 'Visit Group', group_posts_path(group), class: 'btn btn-warning btn-block', id: "group_#{group.id}"
+    = link_to 'Visit Group', group_posts_path(group), class: 'btn btn-default btn-block', id: "group_#{group.id}"

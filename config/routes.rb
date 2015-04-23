@@ -5,7 +5,13 @@ Rails.application.routes.draw do
   resources :users, except: [:destroy]
 
   resources :groups do
-    resources :posts, only: [:index, :create]
+    
+    resources :posts, only: [:index, :create] do
+      member do
+        post 'vote', to: 'posts#vote'
+      end
+    end
+
     resources :guides, only: [:index, :create, :show]
   end
 

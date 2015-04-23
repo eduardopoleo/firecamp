@@ -1,0 +1,2 @@
+Fabricator(:vote) do
+end

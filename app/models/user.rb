@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
 
   has_many :posts
   has_many :guides
+  has_many :votes
 
   has_secure_password validations: false
   before_create :generate_token

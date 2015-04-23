@@ -5,8 +5,6 @@ describe PostsController do
   let(:group) {Fabricate(:group, users: [user])}
   before {session[:user_id] = user.id}
 
-
-
   describe 'GET index' do
     it 'renders the index template' do
       get :index, group_id: group.id 
@@ -88,6 +86,39 @@ describe PostsController do
           post: Fabricate.attributes_for(:post, group: group, content: '')
         expect(assigns(:post)).to be_a_new(Post)
       end
+    end
+  end
+
+  describe 'Post vote_post' do
+    it 'redirects to the posts index path' do
+      post1 = Fabricate(:post, group: group)
+      post :vote, group_id: group.id, id: post1.id, vote: true
+      expect(response).to redirect_to group_posts_path(group)
+    end
+
+    it 'sets creates a vote and sets it to true' do
+      post1 = Fabricate(:post, group: group)
+      post :vote, group_id: group.id, id: post1.id
+      expect(Vote.first.vote).to be_truthy
+    end
+
+    it 'sets the vote to false if the status is true' do
+      post1 = Fabricate(:post, group: group)
+      vote = Fabricate(:vote, user: user, vote: true, voteable: post1)
+      post :vote, group_id: group.id, id: post1.id
+      expect(Vote.first.vote).not_to be_truthy
+    end
+
+    it 'sets the vote user' do
+      post1 = Fabricate(:post, group: group)
+      post :vote, group_id: group.id, id: post1.id
+      expect(Vote.first.user).to eq(user)
+    end
+
+    it 'sets the voteable vote post' do
+      post1 = Fabricate(:post, group: group)
+      post :vote, group_id: group.id, id: post1.id
+      expect(Vote.first.voteable).to eq(post1)
     end
   end
 end

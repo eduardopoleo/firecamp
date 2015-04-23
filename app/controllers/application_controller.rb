@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  helper_method :current_user, :loggedin?
+  helper_method :current_user, :loggedin?, :current_vote, :number_of_likes
 
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
@@ -35,6 +35,19 @@ class ApplicationController < ActionController::Base
     group = Group.find(params[:group_id])
     if !group.users.include?(current_user)
       redirect_to groups_path
+    end
+  end
+
+  def current_vote(post, user)
+    Vote.where(user: user, voteable: post).first
+  end
+
+  def number_of_likes(post)
+    likes = post.votes.where(vote: true).size
+    if likes > 0 
+      "#{likes} likes"
+    else
+      ""
     end
   end
 end
