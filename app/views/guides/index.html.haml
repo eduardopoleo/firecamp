@@ -1,21 +1,24 @@
 .row
   .col-xs-3
     = render "shared/sidebar"
-  .col-xs-8.group-column
-    .row.header-row
-      .col-xs-2.bordered-image-container
+  .col-xs-8.main-column
+    .row.text-center
+      .col-xs-2
         = image_tag("#{@group.group_cover.to_s}", class: "group-image")
-        %p.text-center #{@group.name}
-      .col-xs-10.extra-class
-        %ul.inner-navegation
-          %li
-            = link_to 'Messages', group_posts_path(@group) 
-          %li
-            = link_to 'Guides', group_guides_path(@group)
+      .col-xs-10
+        %p.title #{@group.name}
+      .row.header-row
+        .col-xs-10.extra-class
+          %ul.group-navegation
+            %li
+              = link_to 'Messages', group_posts_path(@group) 
+            %li
+              = link_to 'Guides', group_guides_path(@group)
+            %li
+              = link_to 'Members', group_users_path(@group)
     .row
-      .col-xs-12
-        %h1.feature-title.text-center Guides
-        %button.btn-success.add-resource#guide-button
+      .col-xs-12.add-guide
+        %button.btn.btn-success#guide-button
           + Guide
         %div#guide-form{class: "#{@guide.errors.blank? ? 'hidden-form' : 'visible-form'}"}  
           = render 'guides/form'

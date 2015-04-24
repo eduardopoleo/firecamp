@@ -8,7 +8,6 @@
       .col-xs-10
         %p.title #{@group.name}
     .row.header-row
-      .col-xs-2.bordered-image-container
       .col-xs-10.extra-class
         %ul.group-navegation
           %li
@@ -16,7 +15,7 @@
           %li
             = link_to 'Guides', group_guides_path(@group)
           %li
-            = link_to 'Members', '#'
+            = link_to 'Members', group_users_path(@group)
     .row
       .col-xs-12.add-messages
         %button.btn.btn-success#post-button

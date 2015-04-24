@@ -15,18 +15,18 @@
       %ul.nav.navbar-nav.navbar-right
         - if !current_user
           %li.dropdown
-            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-              Log In
+            %a.dropdown-toggle#session-button{"data-toggle" => "dropdown", :href => "#"}
+              %span#login Log In
               %strong.caret
             .dropdown-menu{:style => "padding: 15px; padding-bottom: 0px;"}
               = bootstrap_form_tag url: login_path do |f|
                 = f.text_field :email, hide_label: true, placeholder: 'Email'
                 = f.password_field :password, hide_label: true, placeholder: 'Password'
-                = link_to "Forgot Password?", new_password_path 
-                = f.submit "Log In" 
+                = link_to "Forgot Password?", new_password_path, id: "forgot" 
+                = f.submit "Log In", id: "login-button"
         - else
           %li.dropdown
-            %a.dropdown-toggle#logout-button{"aria-expanded" => "false", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+            %a.dropdown-toggle#session-button{"aria-expanded" => "false", "data-toggle" => "dropdown", :href => "#", :role => "button"}
               %span.glyphicon.glyphicon-user
               %span.caret
             %ul.dropdown-menu{:role => "menu"}

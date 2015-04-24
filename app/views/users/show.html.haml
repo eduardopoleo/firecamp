@@ -2,32 +2,22 @@
   .col-xs-3
     = render "shared/sidebar"
   .col-xs-8.main-column
-    =link_to "Edit profile", edit_user_path(@user), class: "pull-right"
     .row
       .col-xs-2
         - if @user.avatar.blank?
           = image_tag("placeholder.png", class: 'img-responsive')
         - else
           = image_tag("#{@user.avatar}", class: 'img-responsive')
-        %p.text-center #{@user.full_name}
-      .col-xs-3
-        %p Member since #{datetime_for_view(@user)}
+
+        %p.text-center.member-name-show #{@user.full_name}
+        %p.text-center.member-since Member since #{datetime_for_view(@user)}
+      .col-xs-8
+        - if @user.about
+          %p.member-about-show #{@user.about}
         %p Groups: 
         %ul 
           - @user.groups.each do |group|
-            %li
-              = group.name
-    .row
-      %h3 #{@user.posts.size} Message(s)
-      %hr
-      -@user.posts.each do |post|
-        .media
-          .media-body
-            %h4.media-heading #{post.title}
-            .row
-              .col-xs-11
-                #{post.content}
-              .col-xs-1
-                %span.glyphicon.glyphicon-heart{"aria-hidden" => "true"}
-            .row        
-              %small.date-in-posts #{datetime_for_view(post)} in: #{post.group.name}
+            %li.member-groups #{group.name} #{"(admin)" if @user.admin}
+      .col-xs-2
+        - if @user == current_user
+          = link_to "Edit profile", edit_user_path(@user), class: "pull-right"

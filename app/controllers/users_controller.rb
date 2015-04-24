@@ -1,6 +1,11 @@
 class UsersController < ApplicationController
-  before_action :require_user, only: [:edit]
+  before_action :require_user, only: [:edit, :show]
   before_action :set_new_invitation
+
+  def index
+    @group = Group.find(params[:group_id])
+    @members =  @group.users
+  end
 
   def new
     @user = User.new
@@ -67,6 +72,6 @@ class UsersController < ApplicationController
 
   private
   def user_params
-    params.require(:user).permit(:full_name, :email, :password, :avatar)
+    params.require(:user).permit(:full_name, :email, :password, :avatar, :about)
   end
 end

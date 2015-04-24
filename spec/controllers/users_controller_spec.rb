@@ -1,6 +1,21 @@
 require 'spec_helper'
 
 describe UsersController do
+  describe 'Get Index' do
+    it 'renders the index template' do
+      group = Fabricate(:group)
+      get :index, group_id: group.id
+      expect(response).to render_template :index
+    end
+
+    it 'sets the members instance variables' do
+      group = Fabricate(:group)
+      user1 = Fabricate(:user, groups: [group])
+      get :index, group_id: group.id
+      expect(assigns(:members)).to eq([User.first, user1])
+    end
+  end
+
   describe 'Get New' do
     it 'renders the new registration form' do
       get :new

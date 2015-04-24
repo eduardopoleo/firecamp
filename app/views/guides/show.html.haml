@@ -1,5 +1,6 @@
 .container
-  %h1.text-center #{@guide.title}
+  %h1.text-center.guide-title-big #{@guide.title}
   %p.text-center #{@guide.description}
-  %p.text-center by #{@guide.admin.full_name} at #{datetime_for_view(@guide)}
-  = simple_format(@guide.content)
+  %p.text-center.creation-details by #{@guide.admin.full_name} at #{datetime_for_view(@guide)}
+  .content-container
+    = simple_format(@guide.content)

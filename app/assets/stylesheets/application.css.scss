@@ -29,6 +29,111 @@ body{
   font-family: $main-font;
 }
 
+// Footer
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 30px;
+  background-color: #f5f5f5;
+}
+
+footer a {
+  color: #555;
+}
+
+footer a:hover {
+  color: #222;
+}
+
+footer small {
+  float: left;
+}
+
+footer ul {
+  float: right;
+  list-style: none;
+}
+
+footer ul li {
+  float: left;
+  margin-left: 15px;
+}
+
+//LANDING PAGE
+.jumbotron h1, .jumbotron .h1 {
+    margin-top: 0;
+    font-size: 8em;
+    color: $main-green;
+}
+
+.jumbotron{
+  background-color: white;
+}
+
+#simple-workflow{
+  margin-top: 0;
+  margin-bottom: 3%;
+}
+
+.lead{
+  margin-top: 3%;
+  font-weight: 600;
+}
+
+.landing-icon{
+  color: $main-green;
+}
+
+
+#login{
+  color: white;
+}
+
+#forgot{
+  color: white;
+}
+
+#login-button{
+  margin-top: 5%; 
+  margin-bottom: 5%; 
+}
+
+//NEW USER PAGE
+
+.form-column-title{
+  font-size: 2em;
+  margin-bottom: 4%;
+  color: $main-green;
+}
+
+.right-column{
+  border-left: solid 1px #CDCDB4;
+}
+
+#new_user{
+  margin-top: 3%;
+}
+
+#new-user-button{
+  font-size: 2em;  
+  margin-top: 2%;
+}
+
+#head-title-new-user{
+  color: $main-green; 
+  font-size: 4.5em;
+}
 
 //NAVBAR
 .navbar{
@@ -71,11 +176,15 @@ body{
   background-color: #245D47;
 }
 
-#logout-button{
+#session-button{
+  background-color: $main-green;
   &:hover{
     background-color: $secondary-green;  
   }
   &:focus{
+    background-color: $secondary-green;  
+  }
+  &:active{
     background-color: $secondary-green;  
   }
 }
@@ -92,6 +201,7 @@ body{
   font-weight: 700;
   text-decoration: none;
 }
+
 
 //SIDEBAR
 .new_invitation{
@@ -234,7 +344,7 @@ body{
 }
 
 
-//Guides styling
+//GUIDES
 
 .top-guide-divisor{
   border-color: black; 
@@ -245,7 +355,7 @@ body{
 }
 
 #guide-button{
-  margin-bottom: 2%
+  @extend #group-button
 }
 
 .thumbnail{
@@ -256,29 +366,105 @@ body{
 .guide-title{
   font-weight: 200; 
   font-size: 1.5em;
-  color: black;
+  margin-bottom: 0;
+  color: $secondary-green;
   &:hover{
     text-decoration: none; 
   }
 }
 
 .guide-description{
+  margin-top: 5%;
   font-weight: 200; 
-  color: black;
+  color: $secondary-green;
 }
 
 .guide-category{
-  color: red;
+  margin-top: 5%;
+  color: $orange;
 }
 
 .top-guide-divisor{
   margin-top: 0;
 }
 
+.thumbnail{
+  &:hover{
+    border: solid 1px $secondary-green; 
+  }  
+}
+
 .bottom-guide-divisor{
   margin-bottom: 0;
 }
 
+.guide-date{
+  font-size: 0.8em;
+  color: black;
+}
+
+.guide-title-big{
+  font-size: 4em;
+  color: $main-green;
+}
+
+.content-container{
+  font-weight: 100;
+  color: $main-green;
+}
+
+.creation-details{
+  font-size: 0.9em;
+  font-style: italic;
+}
+
+//MEMBERS INDEX
+
+.member{
+  background-color: $main-green;
+  border: solid 1px $main-green;
+-webkit-box-shadow: 0 7px 4px #777;
+	-moz-box-shadow: 0 7px 4px #777;
+	box-shadow: 0 7px 4px #777;
+}
+
+.member-name{
+  color: white;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.member-status{
+  color: $orange;
+}
+
+.member-since{
+  font-size: 0.8em;
+  color: white;
+}
+
+.member-name-show{
+  color: $main-green;
+}
+
+.member-since{
+  color: black;  
+  font-size: 0.8em;
+}
+
+.member-about{
+  color:white;
+  font-weight: 100;
+}
+
+.member-about-show{
+  color: $secondary-green;  
+  font-weight: 200;
+}
+
+.member-groups{
+ @extend .member-about-show 
+}
 
 
 //Forum
@@ -302,8 +488,4 @@ body{
 
 .extra-class{
  float: right; 
-}
-
-.add-resource{
-  margin-top: 4%;
 }

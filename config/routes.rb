@@ -2,9 +2,10 @@ Rails.application.routes.draw do
   
   root 'welcome#landing_page'
 
-  resources :users, except: [:destroy]
+  resources :users, except: [:destroy, :index]
 
   resources :groups do
+    resources :users, only: [:index]
     
     resources :posts, only: [:index, :create] do
       member do

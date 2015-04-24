@@ -1,0 +1,33 @@
+.row
+  .col-xs-3
+    = render "shared/sidebar"
+  .col-xs-8.main-column
+    .row.text-center
+      .col-xs-2
+        = image_tag("#{@group.group_cover.to_s}", class: "group-image")
+      .col-xs-10
+        %p.title #{@group.name}
+    .row.header-row
+      .col-xs-10.extra-class
+        %ul.group-navegation
+          %li
+            = link_to 'Messages', group_posts_path(@group) 
+          %li
+            = link_to 'Guides', group_guides_path(@group)
+          %li
+            = link_to 'Members', group_users_path(@group)
+    .row
+      - @members.each_slice(4) do |members|
+        .row
+          - members.each do |member|
+            .col-md-3
+              .thumbnail.member
+                = link_to user_path(member) do
+                  = image_tag(member.avatar, :class => "img-responsive") 
+                .caption
+                  %h3.text-center.member-name #{member.full_name}
+                  %p.text-center.member-since Member since #{datetime_for_view(member)}
+                  - if member.admin
+                    %p.member-status.text-center (Admin)
+                  %p.member-about #{member.about}  
+          
