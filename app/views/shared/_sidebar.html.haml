@@ -12,10 +12,13 @@
           %ul
             = link_to group_posts_path(group) do
               %li #{group.name}
-  %li.nav-header
-    %a{"data-target" => "#menu3", "data-toggle" => "collapse", :href => "#"}
-      Send Invitation
-      %i.glyphicon.glyphicon-chevron-right
-    %ul#menu3.nav.nav-stacked.collapse
-      %li
-        = render 'invitations/form'
+  - if current_user.admin
+    %li.nav-header
+      %a{"data-target" => "#menu3", "data-toggle" => "collapse", :href => "#"}
+        Send Invitation
+        %i.glyphicon.glyphicon-chevron-right
+      %ul#menu3.nav.nav-stacked.collapse
+        %li
+          = render 'invitations/form'
+        #sent
+          Your invitation was sent

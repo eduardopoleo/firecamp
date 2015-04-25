@@ -8,7 +8,6 @@
           = image_tag("placeholder.png", class: 'img-responsive')
         - else
           = image_tag("#{@user.avatar}", class: 'img-responsive')
-
         %p.text-center.member-name-show #{@user.full_name}
         %p.text-center.member-since Member since #{datetime_for_view(@user)}
       .col-xs-8

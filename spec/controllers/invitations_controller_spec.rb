@@ -3,34 +3,18 @@ require 'spec_helper'
 describe InvitationsController do
   context 'with logged in user' do
     let(:rich) {Fabricate(:admin)}
-    before{session[:user_id] = rich.id}
-
-    describe "Get new" do
-      it 'sets a new invitation instance variable' do 
-        get :new
-        expect(assigns(:invitation)).to be_a_new(Invitation)
-      end
-
-      it 'renders the new template' do
-        get :new
-        expect(response).to render_template :new
-      end
-
-      it 'redirects to the groups path if not admin' do
-        juan = Fabricate(:user)
-        session[:user_id] = juan.id
-        get :new
-        expect(response).to redirect_to root_path
-      end
+    before do
+      request.env["HTTP_REFERER"] = "http://fake.host"
+      session[:user_id] = rich.id
     end
 
     describe "Post create" do
       context 'with valid input' do
-        it 'redirects to the new invitation path' do
+        it 'redirects back' do
           group1 = Fabricate(:group)
           group2 = Fabricate(:group)
-          post :create, invitation: {email: 'rich@gmail.com', group_ids: ["", "1"]}
-          expect(response).to redirect_to new_invitation_path
+          post :create, invitation: {email: 'rich@gmail.com', group_ids: ["1", "2", ""]}
+          expect(response).to redirect_to "http://fake.host"
         end
 
         it 'creates an invitation' do
@@ -86,11 +70,11 @@ describe InvitationsController do
         expect(Invitation.count).to eq(0)
       end 
 
-      it 'renders the new invitation template' do
+      it 'redirects back' do
         group1 = Fabricate(:group)
         group2 = Fabricate(:group)
-        post :create, invitation: {email: 'rich@gmail.com', group_ids: [""]}
-        expect(response).to render_template :new
+        post :create, invitation: {email: '', group_ids: ["1", "2", ""]}
+        expect(response).to redirect_to "http://fake.host"
       end
 
       it 'sets the invitation intace variable' do

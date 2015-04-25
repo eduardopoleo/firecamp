@@ -30,6 +30,8 @@ body{
   background-image: url("crossword.png");
 }
 
+
+
 // Footer
 
 html {
@@ -224,7 +226,14 @@ footer ul li {
   margin-left: 5%;
 }
 
-// GROUP SECTION  IN INDEX
+#sent{
+  margin-top: 5%;
+  color: $orange;
+  font-weight: 600;
+  display: none; 
+}
+
+// GROUP IN INDEX
 
 .title{
   font-family: $secondary-font;
@@ -236,7 +245,6 @@ footer ul li {
 
 #group-button{
   margin-top: 5%;
-  margin-bottom: 2%;
   background-color: $main-green;
   border-color: $main-green;
   &:hover{
@@ -246,8 +254,11 @@ footer ul li {
 
 #new_group{
   margin-top: 4%;
-  display: none;
   color: $main-green;
+}
+
+#groups{
+  margin-top: 5%;
 }
 
 .hidden-form{
@@ -349,6 +360,10 @@ footer ul li {
 
 
 //GUIDES
+
+#guides{
+  margin-top: 5%;
+}
 
 .top-guide-divisor{
   border-color: black; 

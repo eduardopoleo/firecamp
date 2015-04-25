@@ -1,0 +1,9 @@
+- if !@invitation.valid?
+    alert("Your invitation could not be sent. Please make sure that you have input a VALID EMAIL and selected at least ONE OF YOUR GROUPS.")
+- else
+    $('#new_invitation')[0].reset();
+    $('#sent').show()
+    $("#sent").delay(1000).fadeOut(300);
+    
+    
+

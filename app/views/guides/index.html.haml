@@ -4,26 +4,31 @@
   .col-xs-8.main-column
     .row.text-center
       .col-xs-2
-        = image_tag("#{@group.group_cover.to_s}", class: "group-image")
+        - if @group.group_cover.blank?
+          = image_tag("group_placeholder.jpeg", class: "group-image")
+        - else
+          = image_tag("#{@group.group_cover.to_s}", class: "group-image")
       .col-xs-10
         %p.title #{@group.name}
       .row.header-row
         .col-xs-10.extra-class
           %ul.group-navegation
             %li
-              = link_to 'Messages', group_posts_path(@group) 
+              = link_to 'Forum', group_posts_path(@group) 
             %li
               = link_to 'Guides', group_guides_path(@group)
             %li
               = link_to 'Members', group_users_path(@group)
     .row
       .col-xs-12.add-guide
-        %button.btn.btn-success#guide-button
-          + Guide
-        %div#guide-form{class: "#{@guide.errors.blank? ? 'hidden-form' : 'visible-form'}"}  
-          = render 'guides/form'
-        %br
-        - @guides.each_slice(4) do |guides|
-          .row
-            - guides.each do |guide|
-              = render partial: 'guides/guide', locals: {guide: guide, group: @group}
+        - if current_user.admin
+          %button.btn.btn-success#guide-button
+            <i class="fa fa-plus-circle"></i> Guide
+          %div#guide-form{class: "#{@guide.errors.blank? ? 'hidden-form' : 'visible-form'}"}  
+            = render 'guides/form'
+          %br
+        #guides
+          - @guides.each_slice(4) do |guides|
+            .row
+              - guides.each do |guide|
+                = render partial: 'guides/guide', locals: {guide: guide, group: @group}

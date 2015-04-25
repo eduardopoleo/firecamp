@@ -51,7 +51,7 @@ describe GuidesController do
   end
 
   describe 'Post create' do
-    let(:user) {Fabricate(:user)} 
+    let(:user) {Fabricate(:admin)} 
     let(:group) {Fabricate(:group, users: [user])}
     before {session[:user_id] = user.id}
 

@@ -2,6 +2,7 @@ class GuidesController < ApplicationController
   before_action :require_user
   before_action :require_membership
   before_action :set_new_invitation
+  before_action :require_admin, only: [:create]
 
   def index
     @group = Group.find(params[:group_id])

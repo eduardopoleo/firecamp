@@ -3,7 +3,10 @@
     .panel-title.text-center #{group.name}
     .small.text-center Since #{datetime_for_view(group)}
   = link_to group_posts_path(group) do
-    = image_tag("#{group.group_cover.to_s}", class: "img-responsive panel-image")
+    - if group.group_cover.blank?
+      = image_tag("group_placeholder.jpeg", class: "img-responsive panel-image")
+    - else
+      = image_tag("#{group.group_cover.to_s}", class: "img-responsive panel-image")
   .panel-body
     %p.group-description #{group.description}
     %ul.group-info

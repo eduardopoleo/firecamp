@@ -1,6 +1,6 @@
 $(function() {
   $('#group-button').click(function(){
-    $('#new_group').slideToggle();
+    $('group-form').slideToggle();
   });
 
   $('#post-button').click(function(){
@@ -9,6 +9,10 @@ $(function() {
 
   $('#guide-button').click(function(){
     $('#guide-form').slideToggle();
+  });
+
+  $('#group-button').click(function(){
+    $('#group-form').slideToggle();
   });
 });
 
