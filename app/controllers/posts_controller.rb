@@ -21,17 +21,23 @@ class PostsController < ApplicationController
   end
 
   def vote
-    post = Post.find(params[:id])
-    post_vote = current_vote(post, current_user)
+    @post = Post.find(params[:id])
+    @post_vote = current_vote(@post, current_user)
 
-    if post_vote
-      update_vote_status(post_vote)
+    if @post_vote
+      update_vote_status(@post_vote)
     else
-      post_vote = Vote.create(user: current_user, voteable: post)
-      update_vote_status(post_vote)
+      @post_vote = Vote.create(user: current_user, voteable: @post)
+      update_vote_status(@post_vote)
     end
 
-    redirect_to group_posts_path(@group)
+    respond_to do |format|
+      format.html do 
+        redirect_to group_posts_path(@group)
+      end 
+    
+      format.js
+    end
   end
 
   private

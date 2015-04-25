@@ -1,0 +1,9 @@
+- if @post_vote &&  @post_vote.vote 
+  $("#post_#{@post.id}_heart").html('<i class="fa fa-heart"></i>')
+- else 
+  $('#post_#{@post.id}_heart').html('<i class="fa fa-heart-o"></i>')
+  
+$('#post_#{@post.id}_likes').html("#{number_of_likes(@post)}")
+
+
+

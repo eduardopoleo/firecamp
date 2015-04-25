@@ -11,14 +11,14 @@
     .row
       .col-xs-11
         %span.post-content #{post.content}
+        %br
+        %small #{datetime_for_view(post)}
       .col-xs-1.likes-column.text-center
-        = link_to vote_group_post_path(@group, post), method: :post do
+        = link_to vote_group_post_path(@group, post), method: :post, remote: true, id: "post_#{post.id}_heart" do
           - if current_vote(post, current_user) &&  current_vote(post, current_user).vote
             <i class="fa fa-heart"></i>
           - else
             <i class="fa fa-heart-o"></i>
         %br
-        %span.likes-number #{number_of_likes(post)} 
-    .row        
-      %small.date-in-posts #{datetime_for_view(post)}
+        %span.likes-number{id: "post_#{post.id}_likes"} #{number_of_likes(post)} 
 
