@@ -5,9 +5,9 @@ feature "User sign up", :vcr do
     visit new_user_path
     fill_in_user_info('john@gmail.com')
     fill_in_payment_info('4242424242424242')
-    click_button('Sign Up')
+    click_button('Join Us!')
     expect(page).to have_content('Welcome to Firecamp!') 
-    click_link('logout-button')
+    click_link('session-button')
     click_link('Log Out')
   end
 
@@ -15,7 +15,7 @@ feature "User sign up", :vcr do
     visit new_user_path
     fill_in_user_info("")
     fill_in_payment_info('4242424242424242')
-    click_button('Sign Up')
+    click_button('Join Us!')
     expect(page).to have_content("can't be blank") 
   end
 
@@ -23,7 +23,7 @@ feature "User sign up", :vcr do
     visit new_user_path
     fill_in_user_info("john@gmail.com")
     fill_in_payment_info('')
-    click_button('Sign Up')
+    click_button('Join Us!')
     expect(page).to have_content("This card number looks invalid.") 
   end
 
@@ -31,7 +31,7 @@ feature "User sign up", :vcr do
     visit new_user_path
     fill_in_user_info("john@gmail.com")
     fill_in_payment_info('4000000000000002')
-    click_button('Sign Up')
+    click_button('Join Us!')
     expect(page).to have_content("Your card was declined.") 
   end
 
